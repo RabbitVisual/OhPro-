@@ -84,7 +84,7 @@ A arquitetura prioriza **Local-First**: fontes, ícones e scripts servidos local
 
 1. **Clonar e entrar no projeto**
    ```bash
-   git clone https://github.com/vertexsolutions/vertex-oh-pro.git
+   git clone https://github.com/RabbitVisual/OhPro-.git
    cd vertex-oh-pro
    ```
 
