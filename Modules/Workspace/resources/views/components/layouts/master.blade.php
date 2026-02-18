@@ -1,3 +1,3 @@
-<x-layouts.app :title="'Workspace - ' . config('app.name')">
+<x-layouts.app-sidebar :title="'Workspace - ' . config('app.name')">
     {{ $slot }}
-</x-layouts.app>
+</x-layouts.app-sidebar>

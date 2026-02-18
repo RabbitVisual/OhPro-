@@ -19,6 +19,7 @@ class School extends Model
         'short_name',
         'color',
         'timezone',
+        'logo_path',
     ];
 
     protected function casts(): array

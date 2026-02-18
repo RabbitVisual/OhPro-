@@ -40,6 +40,8 @@ Route::post('/webhooks/mercadopago', \Modules\Billing\Http\Controllers\MercadoPa
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/preferences', [App\Http\Controllers\ProfileController::class, 'updatePreferences'])->name('profile.preferences.update');
+    Route::put('/profile/password', [App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.password.update');
 
     Route::get('/dashboard', function () {
         $user = auth()->user();
@@ -55,5 +57,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return redirect()->route('home')->with('error', __('Sem acesso a nenhum painel.'));
     })->name('dashboard');
 
+    Route::get('/api/quick-search', \Modules\Core\Http\Controllers\QuickSearchController::class)->name('api.quick-search');
     Route::resource('homepages', HomePageController::class)->names('homepage');
 });

@@ -36,6 +36,8 @@ class User extends Authenticatable
         'last_login_at',
         'last_login_ip',
         'current_school_id',
+        'hourly_rate',
+        'notification_preferences',
     ];
 
     /**
@@ -60,6 +62,8 @@ class User extends Authenticatable
             'password' => 'hashed',
             'birth_date' => 'date',
             'last_login_at' => 'datetime',
+            'hourly_rate' => 'decimal:2',
+            'notification_preferences' => 'array',
         ];
     }
 
@@ -92,6 +96,12 @@ class User extends Authenticatable
     public function currentSchool(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(School::class, 'current_school_id');
+    }
+
+    /** Schools this user manages (manager role). */
+    public function managedSchools(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(School::class, 'school_managers', 'user_id', 'school_id')->withTimestamps();
     }
 
     public function lessonPlans(): \Illuminate\Database\Eloquent\Relations\HasMany

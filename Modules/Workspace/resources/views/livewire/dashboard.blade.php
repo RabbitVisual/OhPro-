@@ -55,6 +55,8 @@
             <a href="{{ route('plans') }}" class="shrink-0 px-4 py-2 rounded-lg bg-amber-600 text-white text-sm font-medium hover:bg-amber-700">Ver planos</a>
         </div>
     @endif
+    {{-- Financial overview --}}
+    <livewire:workspace.financial-overview-widget />
     {{-- At-risk students widget --}}
     <livewire:classrecord.at-risk-widget />
     {{-- Next class widget --}}

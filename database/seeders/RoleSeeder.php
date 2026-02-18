@@ -15,7 +15,7 @@ class RoleSeeder extends Seeder
     {
         $guard = config('auth.defaults.guard', 'web');
 
-        foreach (['teacher', 'admin', 'support'] as $name) {
+        foreach (['teacher', 'admin', 'support', 'manager'] as $name) {
             Role::firstOrCreate(
                 ['name' => $name, 'guard_name' => $guard],
                 ['name' => $name, 'guard_name' => $guard]

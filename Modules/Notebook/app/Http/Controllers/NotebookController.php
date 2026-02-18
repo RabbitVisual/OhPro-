@@ -15,6 +15,14 @@ use Illuminate\Http\Request;
 class NotebookController extends Controller
 {
     /**
+     * Rubric builder (list and edit rubrics and levels).
+     */
+    public function rubrics(): \Illuminate\View\View
+    {
+        return view('notebook::rubrics');
+    }
+
+    /**
      * Grade spreadsheet for a class.
      */
     public function grades(SchoolClass $schoolClass): \Illuminate\View\View|\Illuminate\Http\RedirectResponse

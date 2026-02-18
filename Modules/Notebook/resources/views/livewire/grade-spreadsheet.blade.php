@@ -160,6 +160,42 @@
         </div>
     </template>
 
+    @if($rubricModalOpen)
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" wire:key="rubric-modal">
+        <div class="w-full max-w-md max-h-[90vh] overflow-y-auto rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl p-6">
+            <h3 class="text-lg font-display font-bold text-gray-900 dark:text-white mb-1">Nota por rubrica</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">{{ $rubricModalStudentName }} — {{ strtoupper($rubricModalEvaluationType) }}</p>
+            @if(count($this->rubrics) > 0)
+            <form wire:submit="saveGradeFromRubric" class="space-y-4">
+                @foreach($this->rubrics as $rubric)
+                <div>
+                    <label for="rubric-{{ $rubric->id }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ $rubric->name }}</label>
+                    <select id="rubric-{{ $rubric->id }}" wire:model="rubricModalSelections.{{ $rubric->id }}"
+                        class="block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm py-2.5 min-h-[44px] touch-manipulation">
+                        <option value="">— Selecionar nível —</option>
+                        @foreach($rubric->levels as $level)
+                        <option value="{{ $level->id }}">{{ $level->name }}@if($level->points !== null) ({{ number_format($level->points, 1, ',', '') }})@endif</option>
+                        @endforeach
+                    </select>
+                </div>
+                @endforeach
+                <div class="flex gap-2 justify-end pt-2">
+                    <button type="button" wire:click="$set('rubricModalOpen', false)" class="px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 min-h-[44px] touch-manipulation">Cancelar</button>
+                    <button type="submit" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 min-h-[44px] touch-manipulation">
+                        <x-icon name="calculator" style="duotone" class="fa-sm" />
+                        Calcular e salvar
+                    </button>
+                </div>
+            </form>
+            @else
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Crie rubricas e níveis na página de Rubricas para usar esta função.</p>
+            <a href="{{ route('notebook.rubrics.index') }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700">Ir para Rubricas</a>
+            <button type="button" wire:click="$set('rubricModalOpen', false)" class="ml-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300">Fechar</button>
+            @endif
+        </div>
+    </div>
+    @endif
+
     <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead class="bg-gray-50 dark:bg-gray-900">
@@ -178,28 +214,49 @@
                             {{ $row['student']->name }}
                         </td>
                         <td class="px-2 py-2">
-                            <input type="number" step="0.01" min="0" max="10"
-                                value="{{ $row['av1'] !== null ? $row['av1'] : '' }}"
-                                @blur="saveOrQueue({{ $row['student']->id }}, 'av1', $event.target.value)"
-                                class="w-16 min-h-[44px] text-center rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm py-2 mx-auto block touch-manipulation"
-                                placeholder="—"
-                            />
+                            <div class="flex items-center justify-center gap-1">
+                                <input type="number" step="0.01" min="0" max="10"
+                                    value="{{ $row['av1'] !== null ? $row['av1'] : '' }}"
+                                    @blur="saveOrQueue({{ $row['student']->id }}, 'av1', $event.target.value)"
+                                    class="w-14 min-h-[44px] text-center rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm py-2 touch-manipulation"
+                                    placeholder="—"
+                                />
+                                <button type="button" wire:click="openRubricModal({{ $row['student']->id }}, '{{ addslashes($row['student']->name) }}', 'av1')"
+                                    class="min-h-[44px] min-w-[44px] flex items-center justify-center rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 touch-manipulation"
+                                    title="Calcular nota por rubrica">
+                                    <x-icon name="calculator" style="duotone" class="fa-sm" />
+                                </button>
+                            </div>
                         </td>
                         <td class="px-2 py-2">
-                            <input type="number" step="0.01" min="0" max="10"
-                                value="{{ $row['av2'] !== null ? $row['av2'] : '' }}"
-                                @blur="saveOrQueue({{ $row['student']->id }}, 'av2', $event.target.value)"
-                                class="w-16 min-h-[44px] text-center rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm py-2 mx-auto block touch-manipulation"
-                                placeholder="—"
-                            />
+                            <div class="flex items-center justify-center gap-1">
+                                <input type="number" step="0.01" min="0" max="10"
+                                    value="{{ $row['av2'] !== null ? $row['av2'] : '' }}"
+                                    @blur="saveOrQueue({{ $row['student']->id }}, 'av2', $event.target.value)"
+                                    class="w-14 min-h-[44px] text-center rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm py-2 touch-manipulation"
+                                    placeholder="—"
+                                />
+                                <button type="button" wire:click="openRubricModal({{ $row['student']->id }}, '{{ addslashes($row['student']->name) }}', 'av2')"
+                                    class="min-h-[44px] min-w-[44px] flex items-center justify-center rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 touch-manipulation"
+                                    title="Calcular nota por rubrica">
+                                    <x-icon name="calculator" style="duotone" class="fa-sm" />
+                                </button>
+                            </div>
                         </td>
                         <td class="px-2 py-2">
-                            <input type="number" step="0.01" min="0" max="10"
-                                value="{{ $row['av3'] !== null ? $row['av3'] : '' }}"
-                                @blur="saveOrQueue({{ $row['student']->id }}, 'av3', $event.target.value)"
-                                class="w-16 min-h-[44px] text-center rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm py-2 mx-auto block touch-manipulation"
-                                placeholder="—"
-                            />
+                            <div class="flex items-center justify-center gap-1">
+                                <input type="number" step="0.01" min="0" max="10"
+                                    value="{{ $row['av3'] !== null ? $row['av3'] : '' }}"
+                                    @blur="saveOrQueue({{ $row['student']->id }}, 'av3', $event.target.value)"
+                                    class="w-14 min-h-[44px] text-center rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm py-2 touch-manipulation"
+                                    placeholder="—"
+                                />
+                                <button type="button" wire:click="openRubricModal({{ $row['student']->id }}, '{{ addslashes($row['student']->name) }}', 'av3')"
+                                    class="min-h-[44px] min-w-[44px] flex items-center justify-center rounded border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 touch-manipulation"
+                                    title="Calcular nota por rubrica">
+                                    <x-icon name="calculator" style="duotone" class="fa-sm" />
+                                </button>
+                            </div>
                         </td>
                         <td class="px-4 py-3 text-sm text-center text-gray-700 dark:text-gray-300 font-medium">
                             {{ $row['average'] !== null ? number_format($row['average'], 1, ',', '') : '—' }}

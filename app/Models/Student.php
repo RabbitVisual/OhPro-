@@ -29,4 +29,9 @@ class Student extends Model
         return $this->belongsToMany(SchoolClass::class, 'school_class_student', 'student_id', 'school_class_id')
             ->withTimestamps();
     }
+
+    public function portfolioEntries(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(PortfolioEntry::class)->orderByDesc('occurred_at');
+    }
 }

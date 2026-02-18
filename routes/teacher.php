@@ -18,6 +18,7 @@ Route::middleware(['auth', 'verified', 'role:teacher'])->group(function () {
         })->name('import')->middleware('pro');
         Route::get('/class/{schoolClass}', [WorkspaceController::class, 'show'])->name('show')->whereNumber('schoolClass');
         Route::post('/class/{schoolClass}/launch', [DiaryController::class, 'launch'])->name('launch');
+        Route::get('/student/{student}/portfolio', [WorkspaceController::class, 'portfolio'])->name('student.portfolio')->whereNumber('student');
     });
 
     // Diary (class diary / register)
@@ -30,8 +31,9 @@ Route::middleware(['auth', 'verified', 'role:teacher'])->group(function () {
     Route::get('/connect/report-card/{schoolClass}/share-data', [ShareReportController::class, 'shareReportCard'])->name('connect.report-card.share')->whereNumber('schoolClass')->middleware('pro');
     Route::post('/connect/send-email', [SendReportController::class, 'sendEmail'])->name('connect.send-email')->middleware('pro');
 
-    // Notebook (grades & attendance)
+    // Notebook (grades, attendance, rubrics)
     Route::prefix('notebook')->name('notebook.')->group(function () {
+        Route::get('/rubrics', [NotebookController::class, 'rubrics'])->name('rubrics.index');
         Route::get('/class/{schoolClass}/grades', [NotebookController::class, 'grades'])->name('grades');
         Route::get('/class/{schoolClass}/attendance', [NotebookController::class, 'attendance'])->name('attendance');
         Route::get('/class/{schoolClass}/report-card/pdf', [PdfReportController::class, 'reportCard'])->name('report-card.pdf')->whereNumber('schoolClass')->middleware('pro');

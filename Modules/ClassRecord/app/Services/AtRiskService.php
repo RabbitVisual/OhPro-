@@ -59,6 +59,40 @@ class AtRiskService
     }
 
     /**
+     * At-risk list scoped to a school (for Manager dashboard).
+     *
+     * @return Collection<int, array{student: Student, school_class: SchoolClass, reasons: array<string>, grades_url: string}>
+     */
+    public function getAtRiskListForSchool(int $schoolId, int $cycle = 1): Collection
+    {
+        $classes = SchoolClass::where('school_id', $schoolId)->with('students')->get();
+        $result = [];
+        foreach ($classes as $schoolClass) {
+            foreach ($schoolClass->students as $student) {
+                $reasons = [];
+                $attendancePct = $this->attendancePercentage($student->id, $schoolClass->id);
+                if ($attendancePct !== null && $attendancePct < 75) {
+                    $reasons[] = 'Frequência ' . round($attendancePct, 0) . '%';
+                }
+                $avg = $this->averageForStudentClass($student->id, $schoolClass->id, $cycle);
+                if ($avg !== null && $avg < 6.0) {
+                    $reasons[] = 'Média ' . number_format($avg, 1, ',', '');
+                }
+                if ($reasons === []) {
+                    continue;
+                }
+                $result[] = [
+                    'student' => $student,
+                    'school_class' => $schoolClass,
+                    'reasons' => $reasons,
+                    'grades_url' => route('notebook.grades', $schoolClass),
+                ];
+            }
+        }
+        return collect($result);
+    }
+
+    /**
      * Attendance percentage for a student in a class (present/total). Null if no records.
      */
     protected function attendancePercentage(int $studentId, int $schoolClassId): ?float

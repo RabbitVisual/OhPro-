@@ -10,5 +10,6 @@
     "Diary": true,
     "Library": true,
     "Billing": true,
-    "ClassRecord": true
+    "ClassRecord": true,
+    "Manager": true
 }

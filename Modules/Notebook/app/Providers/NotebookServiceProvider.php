@@ -23,6 +23,7 @@ class NotebookServiceProvider extends ServiceProvider
     {
         \Livewire\Livewire::component('notebook.grade-spreadsheet', \Modules\Notebook\Livewire\GradeSpreadsheet::class);
         \Livewire\Livewire::component('notebook.quick-attendance', \Modules\Notebook\Livewire\QuickAttendance::class);
+        \Livewire\Livewire::component('notebook.rubric-builder', \Modules\Notebook\Livewire\RubricBuilder::class);
         $this->registerCommands();
         $this->registerCommandSchedules();
         $this->registerTranslations();

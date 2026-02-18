@@ -10,6 +10,7 @@ namespace Modules\Workspace\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\SchoolClass;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Modules\Diary\Services\ClassDiaryService;
 
@@ -37,6 +38,17 @@ class WorkspaceController extends Controller
             'schoolClass' => $schoolClass,
             'appliedPlan' => $appliedPlan,
         ]);
+    }
+
+    /**
+     * Student portfolio (timeline of pedagogical events).
+     */
+    public function portfolio(Student $student)
+    {
+        if ($student->user_id !== auth()->id()) {
+            abort(403);
+        }
+        return view('workspace::portfolio', ['student' => $student]);
     }
 
     /**
