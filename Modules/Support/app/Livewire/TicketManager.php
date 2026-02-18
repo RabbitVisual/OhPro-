@@ -1,22 +1,25 @@
 <?php
 
-namespace Modules\Support\App\Livewire;
+namespace Modules\Support\Livewire;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Modules\Support\App\Models\Ticket;
-use Illuminate\Support\Facades\Auth;
 
 class TicketManager extends Component
 {
     use WithPagination;
 
     public $showCreateModal = false;
+
     public $showDetailModal = false;
 
     // Form fields
     public $subject;
+
     public $category = 'other';
+
     public $message;
 
     // Selected Ticket
@@ -35,7 +38,7 @@ class TicketManager extends Component
             ->paginate(10);
 
         return view('support::livewire.ticket-manager', [
-            'tickets' => $tickets
+            'tickets' => $tickets,
         ]);
     }
 

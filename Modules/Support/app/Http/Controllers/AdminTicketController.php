@@ -5,7 +5,7 @@ namespace Modules\Support\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Modules\Support\App\Models\Ticket;
+use Modules\Support\Models\Ticket;
 
 class AdminTicketController extends Controller
 {
