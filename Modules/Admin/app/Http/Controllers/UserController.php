@@ -52,4 +52,40 @@ class UserController extends Controller
 
         return back()->with('success', "Usuário {$user->name} promovido para Pro com sucesso!");
     }
+
+    /**
+     * Show the form for editing the specified user.
+     */
+    public function edit(User $user): View
+    {
+        return view('admin::users.edit', [
+            'user' => $user,
+            'title' => 'Editar Usuário: ' . $user->name,
+            'roles' => \Spatie\Permission\Models\Role::all(),
+        ]);
+    }
+
+    /**
+     * Update the specified user in storage.
+     */
+    public function update(Request $request, User $user)
+    {
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'role' => 'required|exists:roles,name',
+        ]);
+
+        $user->update([
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'email' => $validated['email'],
+        ]);
+
+        $user->syncRoles([$validated['role']]);
+
+        return redirect()->route('panel.admin.users.index')
+            ->with('success', 'Usuário atualizado com sucesso!');
+    }
 }

@@ -11,6 +11,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('pa
     Route::get('/', [\Modules\Admin\Http\Controllers\DashboardController::class, 'index'])->name('admin');
     Route::get('/users', [\Modules\Admin\Http\Controllers\UserController::class, 'index'])->name('admin.users.index');
     Route::post('/users/{user}/upgrade', [\Modules\Admin\Http\Controllers\UserController::class, 'upgradeToPro'])->name('admin.users.upgrade');
+    Route::get('/users/{user}/edit', [\Modules\Admin\Http\Controllers\UserController::class, 'edit'])->name('admin.users.edit');
+    Route::put('/users/{user}', [\Modules\Admin\Http\Controllers\UserController::class, 'update'])->name('admin.users.update');
     Route::get('/plans', [\Modules\Admin\Http\Controllers\PlanManagerController::class, 'index'])->name('admin.plans.index');
     Route::get('/plans/{plan}/edit', [\Modules\Admin\Http\Controllers\PlanManagerController::class, 'edit'])->name('admin.plans.edit');
     Route::put('/plans/{plan}', [\Modules\Admin\Http\Controllers\PlanManagerController::class, 'update'])->name('admin.plans.update');

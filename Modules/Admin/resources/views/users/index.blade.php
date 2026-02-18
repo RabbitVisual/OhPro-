@@ -78,7 +78,7 @@
                                         </form>
                                     @endif
 
-                                    <a href="#" class="p-2 rounded-lg text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors">
+                                    <a href="{{ route('panel.admin.users.edit', $user) }}" class="p-2 rounded-lg text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors">
                                         <x-icon name="pen" style="duotone" class="w-4 h-4" />
                                     </a>
                                 </div>
