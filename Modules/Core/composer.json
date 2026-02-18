@@ -1,0 +1,12 @@
+{
+    "name": "vertex/core",
+    "version": "1.0.0",
+    "description": "Core module - © Vertex Solutions LTDA - 2026",
+    "authors": [{"name": "Reinan Rodrigues", "email": "r.rodriguesjs@gmail.com"}],
+    "extra": {"laravel": {"providers": [], "aliases": {}}},
+    "autoload": {
+        "psr-4": {
+            "Modules\\Core\\": "app/"
+        }
+    }
+}

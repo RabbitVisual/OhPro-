@@ -1,0 +1,33 @@
+{
+    "name": "vertex/notebook",
+    "version": "1.0.0",
+    "description": "Module notebook - © Vertex Solutions LTDA - 2026 - VS.1.0",
+    "authors": [
+        {
+            "name": "Reinan Rodrigues",
+            "email": "r.rodriguesjs@gmail.com",
+            "homepage": "https://vertexsolutions.com.br",
+            "role": "Developer"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Notebook\\": "app/",
+            "Modules\\Notebook\\Database\\Factories\\": "database/factories/",
+            "Modules\\Notebook\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Notebook\\Tests\\": "tests/"
+        }
+    }
+}

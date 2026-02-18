@@ -1,0 +1,39 @@
+<svg width="800" height="200" viewBox="0 0 800 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="textGradient" x1="0" y1="0" x2="800" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#4F46E5" />
+            <stop offset="100%" stop-color="#10B981" />
+        </linearGradient>
+    </defs>
+
+    <!-- Icon Section (Same as Favicon but scaled) -->
+    <g transform="translate(40, 20) scale(0.3)">
+        <defs>
+            <linearGradient id="vertexGradientLogo" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#4F46E5" />
+                <stop offset="100%" stop-color="#10B981" />
+            </linearGradient>
+        </defs>
+        <path d="M256 96L416 160V352L256 416L96 352V160L256 96Z" fill="url(#vertexGradientLogo)" fill-opacity="0.2"/>
+        <path d="M128 176L256 240L384 176" stroke="url(#vertexGradientLogo)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M256 240V416" stroke="url(#vertexGradientLogo)" stroke-width="32" stroke-linecap="round"/>
+        <path d="M256 64L400 128L256 192L112 128L256 64Z" fill="#4F46E5"/>
+        <circle cx="400" cy="128" r="8" fill="#10B981"/>
+    </g>
+
+    <!-- Text: Vertex -->
+    <text x="220" y="130" font-family="'Poppins', sans-serif" font-weight="700" font-size="80" fill="#1E293B">
+        Vertex
+    </text>
+
+    <!-- Text: Oh Pro! (Accent Color) -->
+    <text x="500" y="130" font-family="'Poppins', sans-serif" font-weight="700" font-size="80" fill="url(#textGradient)">
+        Oh Pro!
+    </text>
+
+    <!-- Tagline -->
+    <text x="225" y="170" font-family="'Inter', sans-serif" font-weight="400" font-size="24" fill="#64748B" letter-spacing="1">
+        Educação &amp; Tecnologia
+    </text>
+
+</svg>

@@ -1,0 +1,6 @@
+*
+!.gitignore
+!logo/
+!logo/**
+!copy/
+!copy/**

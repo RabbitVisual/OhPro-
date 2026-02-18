@@ -1,0 +1,33 @@
+{
+    "name": "vertex/workspace",
+    "version": "1.0.0",
+    "description": "Module workspace - © Vertex Solutions LTDA - 2026 - VS.1.0",
+    "authors": [
+        {
+            "name": "Reinan Rodrigues",
+            "email": "r.rodriguesjs@gmail.com",
+            "homepage": "https://vertexsolutions.com.br",
+            "role": "Developer"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Workspace\\": "app/",
+            "Modules\\Workspace\\Database\\Factories\\": "database/factories/",
+            "Modules\\Workspace\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Workspace\\Tests\\": "tests/"
+        }
+    }
+}

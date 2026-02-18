@@ -1,0 +1,33 @@
+{
+    "name": "vertex/library",
+    "version": "1.0.0",
+    "description": "Module library - © Vertex Solutions LTDA - 2026 - VS.1.0",
+    "authors": [
+        {
+            "name": "Reinan Rodrigues",
+            "email": "r.rodriguesjs@gmail.com",
+            "homepage": "https://vertexsolutions.com.br",
+            "role": "Developer"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Library\\": "app/",
+            "Modules\\Library\\Database\\Factories\\": "database/factories/",
+            "Modules\\Library\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Library\\Tests\\": "tests/"
+        }
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "Core": true,
+    "HomePage": true,
+    "Admin": true,
+    "Support": true,
+    "Teacher": true,
+    "Workspace": true,
+    "Planning": true,
+    "Notebook": true,
+    "Diary": true,
+    "Library": true,
+    "Billing": true
+}

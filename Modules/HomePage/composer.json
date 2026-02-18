@@ -1,0 +1,31 @@
+{
+    "name": "vertex/HomePage",
+    "version": "1.0.0",
+    "description": "Module HomePage - © Vertex Solutions LTDA - 2026 - VS.1.0",
+    "authors": [
+        {
+            "name": "Reinan Rodrigues",
+            "email": "r.rodriguesjs@gmail.com",
+            "homepage": "https://vertexsolutions.com.br",
+            "role": "Developer"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\HomePage\\": "app/",
+            "Modules\\HomePage\\Database\\Factories\\": "database/factories/",
+            "Modules\\HomePage\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\HomePage\\Tests\\": "tests/"
+        }
+    }
+}
