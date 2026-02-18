@@ -35,6 +35,12 @@
                     <label for="notes" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Notas</label>
                     <textarea name="notes" id="notes" rows="2" class="mt-1 block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm">{{ old('notes', $plan->notes) }}</textarea>
                 </div>
+                <div class="flex items-center gap-2">
+                    <input type="hidden" name="is_public" value="0">
+                    <input type="checkbox" name="is_public" id="is_public" value="1" {{ old('is_public', $plan->is_public) ? 'checked' : '' }}
+                           class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 focus:ring-indigo-500">
+                    <label for="is_public" class="text-sm font-medium text-gray-700 dark:text-gray-300">Disponibilizar na Galeria da Comunidade</label>
+                </div>
             </div>
             <div class="mt-6 flex gap-2">
                 <button type="submit" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600">

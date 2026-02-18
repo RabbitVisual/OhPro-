@@ -20,13 +20,20 @@ class LessonPlan extends Model
         'template_key',
         'sections',
         'notes',
+        'is_public',
     ];
 
     protected function casts(): array
     {
         return [
             'sections' => 'array',
+            'is_public' => 'boolean',
         ];
+    }
+
+    public function scopePublic($query)
+    {
+        return $query->where('is_public', true);
     }
 
     public function user(): BelongsTo

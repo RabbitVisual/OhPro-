@@ -2,8 +2,10 @@
 
 namespace Modules\Workspace\Livewire;
 
+use App\Models\LessonPlan;
 use App\Models\School;
 use App\Models\SchoolClass;
+use App\Models\Student;
 use Livewire\Component;
 
 class Dashboard extends Component
@@ -68,6 +70,31 @@ class Dashboard extends Component
         }
         $totalClasses = SchoolClass::whereHas('school', fn ($q) => $q->where('user_id', $user->id))->count();
         return $totalClasses >= $maxClasses;
+    }
+
+    public function getOnboardingStep1Property(): bool
+    {
+        return auth()->user()->schools()->count() > 0;
+    }
+
+    public function getOnboardingStep2Property(): bool
+    {
+        $user = auth()->user();
+        $classIds = $user->schoolClasses()->pluck('school_classes.id');
+        if ($classIds->isEmpty()) {
+            return false;
+        }
+        return Student::whereHas('schoolClasses', fn ($q) => $q->whereIn('school_class_id', $classIds))->exists();
+    }
+
+    public function getOnboardingStep3Property(): bool
+    {
+        return auth()->user()->lessonPlans()->count() > 0;
+    }
+
+    public function getOnboardingCompleteProperty(): bool
+    {
+        return $this->onboardingStep1 && $this->onboardingStep2 && $this->onboardingStep3;
     }
 
     public function render()

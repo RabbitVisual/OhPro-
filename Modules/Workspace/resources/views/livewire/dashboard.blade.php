@@ -1,4 +1,54 @@
-<div class="min-h-screen p-4 md:p-6">
+<div class="min-h-screen p-4 md:p-6" x-data="{
+    tourStep: 0,
+    tourDone: typeof localStorage !== 'undefined' && localStorage.getItem('onboarding_tour_done'),
+    tourSteps: [
+        { title: 'Bem-vindo ao Oh Pro!', body: 'Configure sua conta em 3 passos rápidos. Comece criando sua primeira escola (workspace).', cta: 'Próximo' },
+        { title: 'Importe seus alunos', body: 'Depois de criar uma escola e turma, importe a lista de alunos para fazer chamada e lançar notas.', cta: 'Próximo' },
+        { title: 'Crie seu primeiro plano de aula', body: 'Use o módulo Planos de aula para criar e vincular planos às turmas. Você também pode gerar com IA!', cta: 'Entendi' }
+    ],
+    startTour() {
+        this.tourDone = false;
+        this.tourStep = 0;
+        if (typeof localStorage !== 'undefined') localStorage.removeItem('onboarding_tour_done');
+    },
+    nextTour() {
+        if (this.tourStep >= this.tourSteps.length - 1) {
+            if (typeof localStorage !== 'undefined') localStorage.setItem('onboarding_tour_done', '1');
+            this.tourDone = true;
+            this.tourStep = 0;
+        } else {
+            this.tourStep++;
+        }
+    },
+    closeTour() {
+        if (typeof localStorage !== 'undefined') localStorage.setItem('onboarding_tour_done', '1');
+        this.tourDone = true;
+        this.tourStep = 0;
+    }
+}" x-init="if (!tourDone && typeof localStorage !== 'undefined' && !localStorage.getItem('onboarding_tour_done')) { $nextTick(() => { tourStep = 0; tourDone = false; }); }">
+    @if(!$this->onboardingComplete)
+        <div class="mb-6 rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/20 p-4">
+            <h3 class="text-sm font-display font-bold text-indigo-900 dark:text-indigo-100 mb-2">Progresso de Configuração</h3>
+            <div class="flex flex-wrap gap-4 items-center mb-2">
+                <span class="inline-flex items-center gap-2 text-sm {{ $this->onboardingStep1 ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400' }}">
+                    @if($this->onboardingStep1)<x-icon name="check-circle" style="solid" class="fa-sm" />@else<span class="w-5 h-5 rounded-full border-2 border-gray-300 dark:border-gray-600 inline-flex items-center justify-center text-xs">1</span>@endif
+                    Criar escola
+                </span>
+                <span class="inline-flex items-center gap-2 text-sm {{ $this->onboardingStep2 ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400' }}">
+                    @if($this->onboardingStep2)<x-icon name="check-circle" style="solid" class="fa-sm" />@else<span class="w-5 h-5 rounded-full border-2 border-gray-300 dark:border-gray-600 inline-flex items-center justify-center text-xs">2</span>@endif
+                    Importar alunos
+                </span>
+                <span class="inline-flex items-center gap-2 text-sm {{ $this->onboardingStep3 ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400' }}">
+                    @if($this->onboardingStep3)<x-icon name="check-circle" style="solid" class="fa-sm" />@else<span class="w-5 h-5 rounded-full border-2 border-gray-300 dark:border-gray-600 inline-flex items-center justify-center text-xs">3</span>@endif
+                    Criar plano de aula
+                </span>
+            </div>
+            @php $pct = ($this->onboardingStep1 ? 33 : 0) + ($this->onboardingStep2 ? 33 : 0) + ($this->onboardingStep3 ? 34 : 0); @endphp
+            <div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                <div class="h-full bg-indigo-600 dark:bg-indigo-500 rounded-full transition-all duration-300" style="width: {{ $pct }}%"></div>
+            </div>
+        </div>
+    @endif
     @if($this->atPlanLimit)
         <div class="mb-6 p-4 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 flex flex-wrap items-center justify-between gap-3">
             <p class="text-amber-800 dark:text-amber-200 text-sm font-medium">Você atingiu o limite de turmas do plano Gratuito. Faça upgrade para criar mais turmas.</p>
@@ -114,4 +164,22 @@
             @endforeach
         </div>
     @endif
+
+    {{-- Welcome tour (Alpine) --}}
+    <template x-teleport="body">
+        <div x-show="!tourDone && tourStep < tourSteps.length" x-cloak
+             class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60"
+             x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+            <div x-show="!tourDone && tourStep < tourSteps.length" x-transition
+                 class="w-full max-w-md rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl p-6">
+                <h3 class="text-lg font-display font-bold text-gray-900 dark:text-white" x-text="tourSteps[tourStep]?.title"></h3>
+                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400" x-text="tourSteps[tourStep]?.body"></p>
+                <div class="mt-6 flex justify-between items-center">
+                    <button type="button" @click="closeTour()" class="text-sm text-gray-500 dark:text-gray-400 hover:underline">Pular</button>
+                    <button type="button" @click="nextTour()" class="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700" x-text="tourSteps[tourStep]?.cta"></button>
+                </div>
+                <p class="mt-2 text-xs text-gray-400 dark:text-gray-500" x-text="(tourStep + 1) + ' de ' + tourSteps.length"></p>
+            </div>
+        </div>
+    </template>
 </div>

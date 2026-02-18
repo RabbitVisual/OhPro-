@@ -4,6 +4,8 @@ namespace Modules\Planning\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\LessonPlan;
+use App\Services\AiAssistantService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -12,12 +14,33 @@ use Modules\Planning\Services\LessonPlanService;
 class PlanningController extends Controller
 {
     public function __construct(
-        private LessonPlanService $lessonPlanService
+        private LessonPlanService $lessonPlanService,
+        private AiAssistantService $aiAssistant
     ) {}
 
     public function index(): View
     {
         return view('planning::index');
+    }
+
+    public function community(): View
+    {
+        $plans = \App\Models\LessonPlan::withoutGlobalScope('user')
+            ->public()
+            ->with('contents')
+            ->orderByDesc('updated_at')
+            ->paginate(12);
+        return view('planning::community', compact('plans'));
+    }
+
+    public function clone(int $id): RedirectResponse
+    {
+        $source = \App\Models\LessonPlan::withoutGlobalScope('user')->public()->with('contents')->find($id);
+        if (! $source) {
+            return redirect()->route('planning.index')->with('error', 'Plano não encontrado ou não está disponível para clonar.');
+        }
+        $newPlan = $this->lessonPlanService->cloneFrom($source);
+        return redirect()->route('planning.edit', $newPlan->id)->with('success', 'Plano clonado. Ajuste o título e o conteúdo se desejar.');
     }
 
     public function create(): View
@@ -36,6 +59,45 @@ class PlanningController extends Controller
 
         $plan = $this->lessonPlanService->create($validated);
         return redirect()->route('planning.edit', $plan->id)->with('success', 'Plano criado.');
+    }
+
+    /**
+     * Generate a lesson plan with AI and create it, then redirect to edit.
+     */
+    public function generateWithAi(Request $request): JsonResponse|RedirectResponse
+    {
+        $validated = $request->validate([
+            'subject' => 'required|string|max:255',
+            'bncc_skill' => 'required|string|max:2000',
+        ]);
+
+        $user = $request->user();
+        try {
+            $this->aiAssistant->ensureCanGenerateLessonPlan($user);
+        } catch (\RuntimeException $e) {
+            return response()->json(['message' => $e->getMessage()], 429);
+        }
+
+        try {
+            $contents = $this->aiAssistant->generateLessonPlanContents(
+                $validated['subject'],
+                $validated['bncc_skill']
+            );
+        } catch (\RuntimeException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
+        }
+
+        $title = $validated['subject'] . ' (IA)';
+        if (strlen($title) > 255) {
+            $title = substr($validated['subject'], 0, 250) . ' (IA)';
+        }
+        $plan = $this->lessonPlanService->createFromAi($title, $contents);
+        $this->aiAssistant->recordLessonPlanGeneration($user);
+
+        return response()->json([
+            'redirect' => route('planning.edit', $plan->id),
+            'message' => 'Plano gerado com IA. Revise e salve se precisar de ajustes.',
+        ]);
     }
 
     public function show(int $id): View|RedirectResponse
@@ -68,8 +130,13 @@ class PlanningController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'notes' => 'nullable|string',
+            'is_public' => 'nullable|boolean',
         ]);
-        $plan->update($validated);
+        $plan->update([
+            'title' => $validated['title'],
+            'notes' => $validated['notes'] ?? null,
+            'is_public' => $request->boolean('is_public'),
+        ]);
 
         if ($request->has('contents') && is_array($request->contents)) {
             $this->lessonPlanService->updateContents($plan, $request->contents);

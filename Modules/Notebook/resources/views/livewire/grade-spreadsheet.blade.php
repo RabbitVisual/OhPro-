@@ -1,5 +1,61 @@
 <div class="p-4 md:p-6" x-data="{
     queueKey: 'gradeQueue_{{ $schoolClassId }}_{{ $cycle }}',
+    shareModalOpen: false,
+    sharePhone: '',
+    shareError: null,
+    shareLoading: false,
+    emailModalOpen: false,
+    emailTo: '',
+    emailError: null,
+    emailSuccess: null,
+    emailLoading: false,
+    async sendEmail() {
+        this.emailError = null;
+        this.emailSuccess = null;
+        if (!this.emailTo || !this.emailTo.includes('@')) {
+            this.emailError = 'Informe um e-mail válido.';
+            return;
+        }
+        this.emailLoading = true;
+        const cycle = document.getElementById('cycle') ? document.getElementById('cycle').value : '1';
+        try {
+            const res = await fetch('{{ route('connect.send-email') }}', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'X-Requested-With': 'XMLHttpRequest' },
+                body: JSON.stringify({ type: 'report_card', email: this.emailTo, school_class_id: {{ $schoolClassId }}, cycle: parseInt(cycle, 10) || 1, _token: '{{ csrf_token() }}' })
+            });
+            const data = await res.json();
+            if (!res.ok) { this.emailError = data.message || 'Não foi possível enviar.'; return; }
+            this.emailSuccess = 'E-mail enviado com sucesso.';
+            setTimeout(() => { this.emailModalOpen = false; this.emailSuccess = null; }, 1500);
+        } catch (e) {
+            this.emailError = 'Erro de conexão. Tente novamente.';
+        } finally {
+            this.emailLoading = false;
+        }
+    },
+    async openWhatsApp() {
+        this.shareError = null;
+        if (!this.sharePhone || this.sharePhone.replace(/\D/g,'').length < 10) {
+            this.shareError = 'Informe um número com DDD.';
+            return;
+        }
+        this.shareLoading = true;
+        const cycle = document.getElementById('cycle') ? document.getElementById('cycle').value : '1';
+        try {
+            const res = await fetch('{{ route('connect.report-card.share', ['schoolClass' => $schoolClassId]) }}?cycle=' + cycle, { headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } });
+            const data = await res.json();
+            if (!res.ok) { this.shareError = data.message || 'Não foi possível gerar o link.'; return; }
+            const clean = '55' + this.sharePhone.replace(/\D/g,'').replace(/^0/, '');
+            const text = encodeURIComponent(data.message);
+            window.open('https://wa.me/' + clean + '?text=' + text, '_blank');
+            this.shareModalOpen = false;
+        } catch (e) {
+            this.shareError = 'Erro de conexão. Tente novamente.';
+        } finally {
+            this.shareLoading = false;
+        }
+    },
     getPending() {
         try { return JSON.parse(localStorage.getItem(this.queueKey) || '[]'); } catch(e) { return []; }
     },
@@ -46,11 +102,63 @@
                 <x-icon name="file-pdf" style="duotone" class="fa-sm" />
                 Gerar boletim (PDF)
             </a>
+            <button type="button" @click="shareModalOpen = true; shareError = null; sharePhone = ''"
+                    class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-green-600 text-white text-sm font-medium hover:bg-green-700">
+                <x-icon name="whatsapp" style="brands" class="fa-sm" />
+                Enviar relatório
+            </button>
+            <button type="button" @click="emailModalOpen = true; emailError = null; emailTo = ''"
+                    class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700">
+                <x-icon name="envelope" style="duotone" class="fa-sm" />
+                Enviar por e-mail
+            </button>
             @else
             <x-feature-locked feature="Gerar boletim (PDF)" />
             @endif
         </div>
     </div>
+
+    <template x-teleport="body">
+        <div x-show="shareModalOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" @keydown.escape.window="shareModalOpen = false">
+            <div x-show="shareModalOpen" x-transition @click.outside="shareModalOpen = false"
+                 class="w-full max-w-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl p-6">
+                <h3 class="text-lg font-display font-bold text-gray-900 dark:text-white mb-2">Enviar boletim via WhatsApp</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Informe o número do destinatário (com DDD). O link do PDF será incluído na mensagem.</p>
+                <input type="text" x-model="sharePhone" x-mask="'phone'" placeholder="(00) 00000-0000"
+                       class="mb-2 block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm">
+                <p x-show="shareError" x-text="shareError" class="text-sm text-red-600 dark:text-red-400 mb-2"></p>
+                <div class="flex gap-2 justify-end mt-4">
+                    <button type="button" @click="shareModalOpen = false" class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300">Cancelar</button>
+                    <button type="button" @click="openWhatsApp()" :disabled="shareLoading"
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 disabled:opacity-50">
+                        <x-icon name="whatsapp" style="brands" class="fa-sm" />
+                        Abrir WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template x-teleport="body">
+        <div x-show="emailModalOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" @keydown.escape.window="emailModalOpen = false">
+            <div x-show="emailModalOpen" x-transition @click.outside="emailModalOpen = false"
+                 class="w-full max-w-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl p-6">
+                <h3 class="text-lg font-display font-bold text-gray-900 dark:text-white mb-2">Enviar boletim por e-mail</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Informe o e-mail do destinatário (ex.: coordenador). O PDF será anexado.</p>
+                <input type="email" x-model="emailTo" placeholder="email@escola.com"
+                       class="mb-2 block w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm">
+                <p x-show="emailError" x-text="emailError" class="text-sm text-red-600 dark:text-red-400 mb-2"></p>
+                <p x-show="emailSuccess" x-text="emailSuccess" class="text-sm text-green-600 dark:text-green-400 mb-2"></p>
+                <div class="flex gap-2 justify-end mt-4">
+                    <button type="button" @click="emailModalOpen = false" class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300">Cancelar</button>
+                    <button type="button" @click="sendEmail()" :disabled="emailLoading"
+                            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 disabled:opacity-50">
+                        <x-icon name="envelope" style="duotone" class="fa-sm" />
+                        Enviar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
 
     <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">

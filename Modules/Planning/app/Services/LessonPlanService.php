@@ -47,6 +47,59 @@ class LessonPlanService
     }
 
     /**
+     * Create a lesson plan with template "detailed" and pre-filled content (e.g. from AI).
+     */
+    public function createFromAi(string $title, array $contentsByKey, ?string $notes = null): LessonPlan
+    {
+        $template = LessonPlanTemplate::where('key', 'detailed')->firstOrFail();
+        $fieldKeys = $this->extractFieldKeysFromStructure($template->structure);
+
+        return DB::transaction(function () use ($title, $template, $fieldKeys, $contentsByKey, $notes) {
+            $plan = LessonPlan::create([
+                'user_id' => auth()->id(),
+                'title' => $title,
+                'template_key' => $template->key,
+                'sections' => [],
+                'notes' => $notes,
+            ]);
+
+            $sortOrder = 0;
+            foreach ($fieldKeys as $key) {
+                LessonPlanContent::create([
+                    'lesson_plan_id' => $plan->id,
+                    'field_key' => $key,
+                    'value' => $contentsByKey[$key] ?? null,
+                    'sort_order' => $sortOrder++,
+                ]);
+            }
+
+            return $plan->load('contents');
+        });
+    }
+
+    /**
+     * Clone a public lesson plan into the current user's repository.
+     */
+    public function cloneFrom(LessonPlan $source): LessonPlan
+    {
+        if (! $source->is_public) {
+            abort(403, 'Apenas planos públicos podem ser clonados.');
+        }
+        $title = 'Cópia de ' . $source->title;
+        if (strlen($title) > 255) {
+            $title = substr($source->title, 0, 247) . '...';
+        }
+        $plan = $this->create([
+            'title' => $title,
+            'template_key' => $source->template_key,
+            'notes' => $source->notes,
+        ]);
+        $contentsByKey = $source->contents->pluck('value', 'field_key')->toArray();
+        $this->updateContents($plan, $contentsByKey);
+        return $plan->load('contents');
+    }
+
+    /**
      * Update content values by field_key.
      */
     public function updateContents(LessonPlan $plan, array $contentsByKey): void

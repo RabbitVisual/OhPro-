@@ -4,13 +4,18 @@
             <x-icon name="book-open-reader" style="duotone" />
             Planos de aula
         </h1>
-        <a
-            href="{{ route('planning.create') }}"
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
-        >
-            <x-icon name="plus" style="duotone" class="fa-sm" />
-            Criar plano
-        </a>
+        <div class="flex gap-2">
+            <a href="{{ route('planning.community') }}"
+               class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-800">
+                <x-icon name="globe-americas" style="duotone" class="fa-sm" />
+                Galeria da Comunidade
+            </a>
+            <a href="{{ route('planning.create') }}"
+               class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600">
+                <x-icon name="plus" style="duotone" class="fa-sm" />
+                Criar plano
+            </a>
+        </div>
     </div>
 
     @if(session('success'))
