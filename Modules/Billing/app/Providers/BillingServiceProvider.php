@@ -34,6 +34,12 @@ class BillingServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->singleton(\Modules\Billing\Services\BillingService::class, function ($app) {
+            return new \Modules\Billing\Services\BillingService();
+        });
+        $this->app->bind(\Modules\Billing\Services\MercadoPagoSubscriptionGateway::class, function () {
+            return new \Modules\Billing\Services\MercadoPagoSubscriptionGateway();
+        });
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
     }

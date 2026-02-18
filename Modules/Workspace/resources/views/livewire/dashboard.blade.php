@@ -1,6 +1,17 @@
 <div class="min-h-screen p-4 md:p-6">
+    @if($this->atPlanLimit)
+        <div class="mb-6 p-4 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 flex flex-wrap items-center justify-between gap-3">
+            <p class="text-amber-800 dark:text-amber-200 text-sm font-medium">Você atingiu o limite de turmas do plano Gratuito. Faça upgrade para criar mais turmas.</p>
+            <a href="{{ route('plans') }}" class="shrink-0 px-4 py-2 rounded-lg bg-amber-600 text-white text-sm font-medium hover:bg-amber-700">Ver planos</a>
+        </div>
+    @endif
+    {{-- At-risk students widget --}}
+    <livewire:classrecord.at-risk-widget />
     {{-- Next class widget --}}
     <livewire:workspace.next-class-widget />
+
+    {{-- Weekly agenda (Mon–Fri) --}}
+    <livewire:workspace.weekly-agenda />
 
     {{-- School selector with color feedback --}}
     <div class="mb-6">
@@ -45,12 +56,37 @@
             Turmas{{ $this->currentSchool ? ' - ' . $this->currentSchool->name : '' }}
         </h2>
         <div class="flex gap-2">
+            @if(auth()->user()->isPro())
+            <a
+                href="{{ route('workspace.import') }}"
+                class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700"
+            >
+                <x-icon name="file-import" style="duotone" class="fa-sm" />
+                Importar alunos
+            </a>
+            @else
+            <x-feature-locked feature="Importar alunos" />
+            @endif
             <a
                 href="{{ route('planning.index') }}"
                 class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
             >
                 <x-icon name="book-open-reader" style="duotone" class="fa-sm" />
                 Planos de aula
+            </a>
+            <a
+                href="{{ route('library.index') }}"
+                class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700"
+            >
+                <x-icon name="folder-open" style="duotone" class="fa-sm" />
+                Biblioteca
+            </a>
+            <a
+                href="{{ route('profile.edit') }}"
+                class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700"
+            >
+                <x-icon name="id-card" style="duotone" class="fa-sm" />
+                Marca pessoal
             </a>
         </div>
     </div>

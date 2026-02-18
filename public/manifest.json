@@ -1,0 +1,18 @@
+{
+    "name": "Vertex OhPro",
+    "short_name": "OhPro",
+    "description": "Caderno digital do professor",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#4f46e5",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/favicon.ico",
+            "sizes": "48x48",
+            "type": "image/x-icon",
+            "purpose": "any"
+        }
+    ]
+}

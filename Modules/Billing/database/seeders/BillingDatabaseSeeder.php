@@ -17,6 +17,6 @@ class BillingDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([]);
+        $this->call(PlansSeeder::class);
     }
 }

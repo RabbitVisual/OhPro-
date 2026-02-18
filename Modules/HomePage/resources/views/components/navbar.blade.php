@@ -18,6 +18,7 @@
             <div class="hidden md:flex items-center space-x-8">
                 <a href="{{ route('home') }}#funcionalidades" class="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">Funcionalidades</a>
                 <a href="{{ route('home') }}#beneficios" class="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">Benefícios</a>
+                <a href="{{ route('plans') }}" class="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">Planos</a>
                 <a href="{{ route('about') }}" class="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">Sobre</a>
                 <a href="{{ route('faq') }}" class="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">FAQ</a>
                 <a href="{{ route('contact') }}" class="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors">Contato</a>
@@ -81,6 +82,7 @@
         <div class="px-4 pt-2 pb-6 space-y-2">
             <a href="{{ route('home') }}#funcionalidades" class="block px-3 py-3 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400">Funcionalidades</a>
             <a href="{{ route('home') }}#beneficios" class="block px-3 py-3 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400">Benefícios</a>
+            <a href="{{ route('plans') }}" class="block px-3 py-3 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400">Planos</a>
             <a href="{{ route('about') }}" class="block px-3 py-3 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400">Sobre</a>
             <a href="{{ route('faq') }}" class="block px-3 py-3 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400">FAQ</a>
             <a href="{{ route('contact') }}" class="block px-3 py-3 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400">Contato</a>

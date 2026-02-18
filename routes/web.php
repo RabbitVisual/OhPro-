@@ -15,6 +15,7 @@ Route::get('/privacy', [HomePageController::class, 'privacy'])->name('privacy');
 Route::get('/contact', [HomePageController::class, 'contact'])->name('contact');
 Route::get('/about', [HomePageController::class, 'about'])->name('about');
 Route::get('/faq', [HomePageController::class, 'faq'])->name('faq');
+Route::get('/planos', [HomePageController::class, 'plans'])->name('plans');
 
 /*
 | Autenticação (login, registro, logout, recuperação de senha).
@@ -30,7 +31,16 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
+/*
+| Webhooks (Stripe, Mercado Pago) - CSRF excluded in bootstrap/app.php
+*/
+Route::post('/webhooks/stripe', \Modules\Billing\Http\Controllers\StripeWebhookController::class)->name('webhooks.stripe');
+Route::post('/webhooks/mercadopago', \Modules\Billing\Http\Controllers\MercadoPagoWebhookController::class)->name('webhooks.mercadopago');
+
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+
     Route::get('/dashboard', function () {
         $user = auth()->user();
         if ($user->hasRole('teacher')) {

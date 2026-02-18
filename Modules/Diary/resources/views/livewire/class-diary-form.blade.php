@@ -67,7 +67,15 @@
                 @endforeach
             </div>
         @endif
-        <div class="mt-6">
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+            @if(auth()->user()->isPro())
+            <a href="{{ route('diary.class.pdf', $diary) }}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700">
+                <x-icon name="file-pdf" style="duotone" class="fa-sm" />
+                Gerar PDF Oficial
+            </a>
+            @else
+            <x-feature-locked feature="Gerar PDF Oficial" />
+            @endif
             <a href="{{ route('workspace.show', $diary->school_class_id) }}" class="text-indigo-600 dark:text-indigo-400 hover:underline">Voltar à turma</a>
         </div>
     @else

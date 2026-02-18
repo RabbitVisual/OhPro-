@@ -84,6 +84,10 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
+        $plan = $request->query('plan');
+        if (in_array($plan, ['pro', 'pro_annual'], true)) {
+            return redirect()->route('billing.index', ['plan' => $plan]);
+        }
         return redirect()->route('dashboard');
     }
 

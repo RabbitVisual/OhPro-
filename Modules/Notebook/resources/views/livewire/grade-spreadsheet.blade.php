@@ -1,16 +1,54 @@
-<div class="p-4 md:p-6">
+<div class="p-4 md:p-6" x-data="{
+    queueKey: 'gradeQueue_{{ $schoolClassId }}_{{ $cycle }}',
+    getPending() {
+        try { return JSON.parse(localStorage.getItem(this.queueKey) || '[]'); } catch(e) { return []; }
+    },
+    setPending(items) {
+        localStorage.setItem(this.queueKey, JSON.stringify(items));
+    },
+    saveOrQueue(studentId, evaluationType, value) {
+        if (navigator.onLine) {
+            $wire.saveGrade(studentId, evaluationType, value);
+        } else {
+            const pending = this.getPending();
+            const idx = pending.findIndex(p => p.student_id === studentId && p.evaluation_type === evaluationType);
+            const item = { student_id: studentId, evaluation_type: evaluationType, value: value === '' ? null : value };
+            if (idx >= 0) pending[idx] = item; else pending.push(item);
+            this.setPending(pending);
+            window.dispatchEvent(new CustomEvent('toast', { detail: { message: 'Será sincronizado ao reconectar.', type: 'info' } }));
+        }
+    },
+    syncPending() {
+        const pending = this.getPending();
+        if (pending.length === 0) return;
+        $wire.syncGrades(pending);
+        this.setPending([]);
+    }
+}" x-init="
+    window.addEventListener('online', () => { $nextTick(() => syncPending()); });
+")
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h1 class="text-xl font-display font-bold text-gray-900 dark:text-white flex items-center gap-2">
             <x-icon name="table-list" style="duotone" />
             Notas
         </h1>
-        <div class="flex items-center gap-2">
-            <label for="cycle" class="text-sm text-gray-600 dark:text-gray-400">Ciclo:</label>
-            <select id="cycle" wire:model.live="cycle" class="rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm px-3 py-2">
-                @for ($c = 1; $c <= 4; $c++)
-                    <option value="{{ $c }}">{{ $c }}</option>
-                @endfor
-            </select>
+        <div class="flex items-center gap-3 flex-wrap">
+            <div class="flex items-center gap-2">
+                <label for="cycle" class="text-sm text-gray-600 dark:text-gray-400">Ciclo:</label>
+                <select id="cycle" wire:model.live="cycle" class="rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm px-3 py-2">
+                    @for ($c = 1; $c <= 4; $c++)
+                        <option value="{{ $c }}">{{ $c }}</option>
+                    @endfor
+                </select>
+            </div>
+            @if(auth()->user()->isPro())
+            <a href="{{ route('notebook.report-card.pdf', ['schoolClass' => $schoolClassId, 'cycle' => $cycle]) }}" target="_blank" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700">
+                <x-icon name="file-pdf" style="duotone" class="fa-sm" />
+                Gerar boletim (PDF)
+            </a>
+            @else
+            <x-feature-locked feature="Gerar boletim (PDF)" />
+            @endif
         </div>
     </div>
 
@@ -34,7 +72,7 @@
                         <td class="px-2 py-2">
                             <input type="number" step="0.01" min="0" max="10"
                                 value="{{ $row['av1'] !== null ? $row['av1'] : '' }}"
-                                @blur="$wire.saveGrade({{ $row['student']->id }}, 'av1', $event.target.value)"
+                                @blur="saveOrQueue({{ $row['student']->id }}, 'av1', $event.target.value)"
                                 class="w-16 min-h-[44px] text-center rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm py-2 mx-auto block touch-manipulation"
                                 placeholder="—"
                             />
@@ -42,7 +80,7 @@
                         <td class="px-2 py-2">
                             <input type="number" step="0.01" min="0" max="10"
                                 value="{{ $row['av2'] !== null ? $row['av2'] : '' }}"
-                                @blur="$wire.saveGrade({{ $row['student']->id }}, 'av2', $event.target.value)"
+                                @blur="saveOrQueue({{ $row['student']->id }}, 'av2', $event.target.value)"
                                 class="w-16 min-h-[44px] text-center rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm py-2 mx-auto block touch-manipulation"
                                 placeholder="—"
                             />
@@ -50,7 +88,7 @@
                         <td class="px-2 py-2">
                             <input type="number" step="0.01" min="0" max="10"
                                 value="{{ $row['av3'] !== null ? $row['av3'] : '' }}"
-                                @blur="$wire.saveGrade({{ $row['student']->id }}, 'av3', $event.target.value)"
+                                @blur="saveOrQueue({{ $row['student']->id }}, 'av3', $event.target.value)"
                                 class="w-16 min-h-[44px] text-center rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-sm py-2 mx-auto block touch-manipulation"
                                 placeholder="—"
                             />

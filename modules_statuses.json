@@ -9,5 +9,6 @@
     "Notebook": true,
     "Diary": true,
     "Library": true,
-    "Billing": true
+    "Billing": true,
+    "ClassRecord": true
 }

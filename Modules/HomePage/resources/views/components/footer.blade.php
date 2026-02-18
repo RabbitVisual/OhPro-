@@ -31,7 +31,7 @@
                     <li><a href="{{ route('home') }}#beneficios" class="text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors">Benefícios</a></li>
                     <li><a href="{{ route('about') }}" class="text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors">Sobre Nós</a></li>
                     <li><a href="#" class="text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors">Marketplace</a></li>
-                    <li><a href="#" class="text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors">Planos</a></li>
+                    <li><a href="{{ route('plans') }}" class="text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 transition-colors">Planos</a></li>
                 </ul>
             </div>
 

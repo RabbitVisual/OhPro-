@@ -56,6 +56,20 @@ class Dashboard extends Component
         return SchoolClass::where('school_id', $this->currentSchoolId)->orderBy('name')->get();
     }
 
+    public function getAtPlanLimitProperty(): bool
+    {
+        $user = auth()->user();
+        if (! $user || $user->isPro()) {
+            return false;
+        }
+        $maxClasses = $user->plan()->getLimit('max_classes');
+        if ($maxClasses === null) {
+            return false;
+        }
+        $totalClasses = SchoolClass::whereHas('school', fn ($q) => $q->where('user_id', $user->id))->count();
+        return $totalClasses >= $maxClasses;
+    }
+
     public function render()
     {
         return view('workspace::livewire.dashboard');

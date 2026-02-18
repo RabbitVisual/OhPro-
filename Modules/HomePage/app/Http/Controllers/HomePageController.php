@@ -3,6 +3,7 @@
 namespace Modules\HomePage\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 
 class HomePageController extends Controller
@@ -56,5 +57,11 @@ class HomePageController extends Controller
     public function faq()
     {
         return view('HomePage::faq');
+    }
+
+    public function plans()
+    {
+        $plans = Plan::active()->ordered()->get();
+        return view('HomePage::plans', compact('plans'));
     }
 }

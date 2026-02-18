@@ -56,6 +56,37 @@ class GradeSpreadsheet extends Component
         }
     }
 
+    /**
+     * Sync a batch of pending grades (e.g. after coming back online).
+     */
+    public function syncGrades(array $pending): void
+    {
+        $synced = 0;
+        foreach ($pending as $item) {
+            $studentId = (int) ($item['student_id'] ?? 0);
+            $type = (string) ($item['evaluation_type'] ?? '');
+            $value = $item['value'] ?? null;
+            if ($studentId && in_array($type, ['av1', 'av2', 'av3'], true)) {
+                try {
+                    $this->gradeService->save(
+                        $studentId,
+                        $this->schoolClassId,
+                        $type,
+                        $value === '' || $value === null ? null : (float) $value,
+                        $this->cycle
+                    );
+                    $synced++;
+                } catch (\Throwable) {
+                    // continue with next
+                }
+            }
+        }
+        $this->loadRows();
+        if ($synced > 0) {
+            $this->dispatch('toast', message: "{$synced} nota(s) sincronizada(s).", type: 'success');
+        }
+    }
+
     public function updatedCycle($value): void
     {
         $this->cycle = (int) $value;

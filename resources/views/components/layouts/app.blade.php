@@ -19,6 +19,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ $title ?? config('app.name', 'Oh Pro!') }}</title>
+    <link rel="manifest" href="/manifest.json">
 
     <!-- Anti-Flicker Script -->
     <script>
@@ -33,6 +34,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans text-gray-900 bg-background dark:bg-background antialiased">
+    <x-offline-indicator />
     <x-loading-overlay />
     <x-toast-container />
 

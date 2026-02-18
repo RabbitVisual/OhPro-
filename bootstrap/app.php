@@ -20,8 +20,13 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+            'pro' => \App\Http\Middleware\EnsureUserIsPro::class,
         ]);
         $middleware->redirectUsersTo(fn () => route('dashboard'));
+        $middleware->validateCsrfTokens(except: [
+            'webhooks/stripe',
+            'webhooks/mercadopago',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (\Spatie\Permission\Exceptions\UnauthorizedException $e, \Illuminate\Http\Request $request) {

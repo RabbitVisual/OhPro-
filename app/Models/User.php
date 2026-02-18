@@ -28,6 +28,8 @@ class User extends Authenticatable
         'birth_date',
         'phone',
         'photo',
+        'logo_path',
+        'signature_path',
         'membership',
         'status',
         'password',
@@ -95,5 +97,53 @@ class User extends Authenticatable
     public function lessonPlans(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(LessonPlan::class);
+    }
+
+    public function subscriptions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    /** Active subscription (trialing or active). */
+    public function subscription(): ?Subscription
+    {
+        return $this->subscriptions()->active()->latest()->first();
+    }
+
+    /** Current effective plan (from active subscription or free). */
+    public function plan(): Plan
+    {
+        $sub = $this->subscription();
+        if ($sub && $sub->plan) {
+            return $sub->plan;
+        }
+        return Plan::where('key', 'free')->firstOrFail();
+    }
+
+    public function isFree(): bool
+    {
+        return $this->membership === 'free' || ! $this->subscription()?->isActive();
+    }
+
+    public function isPro(): bool
+    {
+        return in_array($this->membership, ['pro', 'pro_annual'], true) && $this->subscription()?->isActive();
+    }
+
+    /** Check plan limit (e.g. max_classes). Returns true if under limit or unlimited. */
+    public function withinLimit(string $limitKey, int $currentCount): bool
+    {
+        $plan = $this->plan();
+        $max = $plan->getLimit($limitKey);
+        if ($max === null) {
+            return true; // unlimited
+        }
+        return $currentCount < $max;
+    }
+
+    /** Check if user has a feature by key (from plan limits/features). */
+    public function hasFeature(string $feature): bool
+    {
+        return $this->plan()->hasFeature($feature);
     }
 }
