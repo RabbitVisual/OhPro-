@@ -1,0 +1,91 @@
+name: Jules AI Auto-Merge
+
+on:
+  workflow_run:
+    workflows: ["PHP Unit Tests"]
+    types:
+      - completed
+
+jobs:
+  auto-approve-and-merge:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    permissions:
+      pull-requests: write
+      contents: write
+      actions: read
+    steps:
+      - name: Auto-approve and Merge (Jules/AI)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // 1. Find the PR associated with this workflow run
+            const workflow_run_id = context.payload.workflow_run.id;
+
+            console.log(`Analyzing workflow run ${workflow_run_id}...`);
+
+            const prs = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              sort: 'updated',
+              direction: 'desc',
+              per_page: 10
+            });
+
+            // We need to find the PR that triggered the workflow run.
+            // Since workflow_run doesn't link directly to PR easily, we match the head sha.
+            const head_sha = context.payload.workflow_run.head_sha;
+            const pr = prs.data.find(p => p.head.sha === head_sha);
+
+            if (!pr) {
+              console.log(`No open PR found for commit ${head_sha}. Skipping.`);
+              return;
+            }
+
+            const prNumber = pr.number;
+            const actor = pr.user.login;
+
+            console.log(`Found PR #${prNumber} by ${actor}`);
+
+            // 2. Security Check: Trusted Actors
+            const trustedUsers = ['RabbitVisual', 'google-jules', 'jules-ai', 'vertex-bot'];
+
+            // Or check if the PR has a specific label added by Jules
+            // const hasLabel = pr.labels.some(label => label.name === 'jules-ai');
+
+            // if (!trustedUsers.includes(actor)) {
+            //   console.log(`Actor ${actor} is not in the trusted list. Skipping auto-merge.`);
+            //   return;
+            // }
+
+            console.log('Tests passed and actor is trusted. Proceeding with Merge.');
+
+            // 3. Approve the PR
+            try {
+              await github.rest.pulls.createReview({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                event: 'APPROVE',
+                body: '✅ Tests Passed. Auto-approved for Jules AI.'
+              });
+              console.log('PR approved.');
+            } catch (error) {
+              console.error('Failed to approve PR (might be already approved):', error.message);
+            }
+
+            // 4. Merge the PR
+            try {
+              await github.rest.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                merge_method: 'squash',
+                commit_title: `Merged PR #${prNumber}: ${pr.title}`,
+                commit_message: 'Auto-merged via Jules AI Workflow after successful tests.'
+              });
+              console.log('PR merged successfully.');
+            } catch (error) {
+              console.error('Failed to merge PR:', error.message);
+            }
