@@ -3,6 +3,9 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <h1 class="text-xl font-display font-bold text-gray-900 dark:text-white">{{ $plan->title }}</h1>
             <div class="flex gap-2">
+                <a href="{{ route('planning.pdf', $plan->id) }}" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-900 text-white text-sm hover:bg-gray-800 transition-colors">
+                    <x-icon name="file-pdf" /> Baixar PDF
+                </a>
                 <a href="{{ route('planning.edit', $plan->id) }}" class="inline-flex items-center px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm">Editar</a>
                 <a href="{{ route('planning.index') }}" class="inline-flex items-center px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm">Voltar</a>
             </div>

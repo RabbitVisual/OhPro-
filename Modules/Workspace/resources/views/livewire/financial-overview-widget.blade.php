@@ -1,7 +1,9 @@
 <div class="mb-6 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
-    <h2 class="text-lg font-display font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-        <x-icon name="money-bill-trend-up" style="duotone" />
-        Visão financeira
+    <h2 class="text-lg font-display font-bold text-gray-900 dark:text-white mb-4 flex items-center justify-between gap-2">
+        <span class="flex items-center gap-2"><x-icon name="money-bill-trend-up" style="duotone" /> Visão financeira</span>
+        <a href="{{ route('teacher.wallet') }}" class="text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:underline">
+            Minha Carteira &rarr;
+        </a>
     </h2>
     @if(auth()->user()->hourly_rate !== null)
     @php $data = $this->data; @endphp

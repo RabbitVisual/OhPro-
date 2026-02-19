@@ -12,5 +12,7 @@
     "Billing": true,
     "ClassRecord": true,
     "Manager": true,
-    "Notifications": true
+    "Notifications": true,
+    "Marketplace": true,
+    "Finance": true
 }

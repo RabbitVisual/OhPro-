@@ -12,4 +12,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Teacher Stats
     Route::get('/stats', [\Modules\Teacher\Http\Controllers\TeacherController::class, 'stats'])->name('teacher.stats');
+
+    // Wallet
+    Route::get('/wallet', \Modules\Teacher\Livewire\WalletDashboard::class)->name('teacher.wallet');
 });
+
+Route::get('/pro/{username}', \Modules\Teacher\Livewire\PublicProfile::class)->name('public.profile');

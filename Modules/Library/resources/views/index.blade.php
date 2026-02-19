@@ -109,6 +109,9 @@
                                         @method('DELETE')
                                         <button type="submit" class="text-red-600 dark:text-red-400 hover:underline text-sm">Excluir</button>
                                     </form>
+                                    <button x-data x-on:click="$dispatch('open-publish-modal', { type: 'library_file', id: {{ $file->id }} })" class="inline ml-2 text-emerald-600 dark:text-emerald-400 hover:underline text-sm">
+                                        Vender
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -120,4 +123,5 @@
             @endif
         </div>
     </div>
+    <livewire:marketplace.publish-item />
 </x-library::layouts.master>

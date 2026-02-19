@@ -23,8 +23,16 @@ class PdfReportService
             // Theme is already an object
         } elseif (isset($data['theme']) && is_string($data['theme'])) {
              $data['theme'] = \Modules\ClassRecord\Enums\PdfTheme::tryFrom($data['theme']) ?? \Modules\ClassRecord\Enums\PdfTheme::CLASSIC;
-        } else {
              $data['theme'] = \Modules\ClassRecord\Enums\PdfTheme::CLASSIC;
+        }
+
+        if (empty($data['watermark_text'])) {
+            $data['watermark_text'] = null; // Default null
+        }
+
+        // If options has watermark, override
+        if (isset($options['watermark'])) {
+            $data['watermark_text'] = $options['watermark'];
         }
 
         $html = View::make($view, $data)->render();

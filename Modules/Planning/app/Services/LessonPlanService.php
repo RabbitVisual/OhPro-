@@ -80,22 +80,48 @@ class LessonPlanService
     /**
      * Clone a public lesson plan into the current user's repository.
      */
-    public function cloneFrom(LessonPlan $source): LessonPlan
+    /**
+     * Clone a lesson plan into the target user's repository (default: current user).
+     */
+    public function cloneFrom(LessonPlan $source, ?\App\Models\User $targetUser = null, bool $force = false): LessonPlan
     {
-        if (! $source->is_public) {
+        if (! $source->is_public && ! $force) {
             abort(403, 'Apenas planos públicos podem ser clonados.');
         }
+
+        $userId = $targetUser ? $targetUser->id : auth()->id();
         $title = 'Cópia de ' . $source->title;
+
         if (strlen($title) > 255) {
             $title = substr($source->title, 0, 247) . '...';
         }
-        $plan = $this->create([
-            'title' => $title,
-            'template_key' => $source->template_key,
-            'notes' => $source->notes,
-        ]);
-        $contentsByKey = $source->contents->pluck('value', 'field_key')->toArray();
-        $this->updateContents($plan, $contentsByKey);
+
+        // We create manually to allow setting user_id different from auth()
+        $template = LessonPlanTemplate::where('key', $source->template_key)->firstOrFail();
+
+        $plan = DB::transaction(function () use ($userId, $title, $template, $source) {
+            $newPlan = LessonPlan::create([
+                'user_id' => $userId,
+                'title' => $title,
+                'template_key' => $template->key,
+                'sections' => [],
+                'notes' => $source->notes,
+            ]);
+
+            $contentsByKey = $source->contents->pluck('value', 'field_key')->toArray();
+
+            foreach ($contentsByKey as $key => $value) {
+                LessonPlanContent::create([
+                    'lesson_plan_id' => $newPlan->id,
+                    'field_key' => $key,
+                    'value' => $value,
+                    'sort_order' => 0, // Simplified
+                ]);
+            }
+
+            return $newPlan;
+        });
+
         return $plan->load('contents');
     }
 

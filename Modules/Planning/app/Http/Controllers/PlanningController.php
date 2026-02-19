@@ -159,4 +159,25 @@ class PlanningController extends Controller
     {
         return LessonPlan::where('user_id', auth()->id())->find($id);
     }
+
+    public function downloadPdf(int $id)
+    {
+        $plan = \App\Models\LessonPlan::with(['contents', 'user'])->findOrFail($id);
+
+        if ($plan->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $service = new \Modules\ClassRecord\Services\PdfReportService();
+
+        $pdfContent = $service->generateFromView('planning::pdf', [
+            'plan' => $plan,
+        ], false, [
+            'watermark' => 'Licenciado para ' . auth()->user()->name,
+        ]);
+
+        return response($pdfContent)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="' . \Illuminate\Support\Str::slug($plan->title) . '.pdf"');
+    }
 }

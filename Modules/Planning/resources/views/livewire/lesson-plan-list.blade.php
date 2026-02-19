@@ -47,6 +47,7 @@
                         <td class="px-4 py-3 text-right text-sm">
                             <a href="{{ route('planning.edit', $plan->id) }}" class="text-indigo-600 dark:text-indigo-400 hover:underline">Editar</a>
                             <a href="{{ route('planning.show', $plan->id) }}" class="ml-3 text-gray-600 dark:text-gray-400 hover:underline">Ver</a>
+                            <button wire:click="$dispatch('open-publish-modal', { type: 'lesson_plan', id: {{ $plan->id }} })" class="ml-3 text-emerald-600 dark:text-emerald-400 hover:underline">Vender</button>
                         </td>
                     </tr>
                 @empty
@@ -73,6 +74,7 @@
                 <div class="mt-3 flex gap-2">
                     <a href="{{ route('planning.edit', $plan->id) }}" class="text-sm text-indigo-600 dark:text-indigo-400">Editar</a>
                     <a href="{{ route('planning.show', $plan->id) }}" class="text-sm text-gray-600 dark:text-gray-400">Ver</a>
+                    <button wire:click="$dispatch('open-publish-modal', { type: 'lesson_plan', id: {{ $plan->id }} })" class="text-sm text-emerald-600 dark:text-emerald-400">Vender</button>
                 </div>
             </div>
         @empty
@@ -82,4 +84,6 @@
             {{ $plans->links() }}
         @endif
     </div>
+
+    <livewire:marketplace.publish-item />
 </div>
