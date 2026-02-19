@@ -74,26 +74,53 @@ class ImportGoogleRoster extends Component
         ]);
 
         $class = SchoolClass::find($this->targetClassId);
-        $count = 0;
 
-        foreach ($this->students as $s) {
-            if (in_array($s['id'], $this->selectedStudents)) {
-                // Find or create student
-                $student = Student::firstOrCreate(
-                    ['email' => $s['email']], // Assuming email is unique key, ideally composite with user_id but for import simplified
-                    [
-                        'name' => $s['name'],
-                        'user_id' => auth()->id(), // Ownership
-                        // 'google_id' => $s['id'] // If we had this column
-                    ]
-                );
+        $selectedData = collect($this->students)
+            ->whereIn('id', $this->selectedStudents)
+            ->map(function ($s) {
+                return [
+                    'email' => $s['email'],
+                    'name' => $s['name'],
+                    'user_id' => auth()->id(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            })->values();
 
-                // Attach to class if not already
-                if (!$class->students()->where('student_id', $student->id)->exists()) {
-                    $class->students()->attach($student->id);
-                    $count++;
-                }
-            }
+        if ($selectedData->isEmpty()) {
+            session()->flash('success', "Nenhum aluno selecionado.");
+            return redirect()->route('workspace.show', $class->id);
+        }
+
+        // Bulk create/update students
+        // We only update updated_at to preserve existing data (like name) if the student already exists,
+        // matching the behavior of firstOrCreate.
+        Student::upsert($selectedData->toArray(), ['email'], ['updated_at']);
+
+        // Get IDs of all students by email
+        $emails = $selectedData->pluck('email')->toArray();
+        $studentIds = Student::whereIn('email', $emails)->pluck('id')->toArray();
+
+        // Bulk attach to class: find missing ones and insert in bulk
+        $existingStudentIds = $class->students()
+            ->whereIn('student_id', $studentIds)
+            ->pluck('student_id')
+            ->toArray();
+
+        $studentIdsToAttach = array_diff($studentIds, $existingStudentIds);
+        $count = count($studentIdsToAttach);
+
+        if (!empty($studentIdsToAttach)) {
+            $pivotData = array_map(function ($id) use ($class) {
+                return [
+                    'school_class_id' => $class->id,
+                    'student_id' => $id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }, $studentIdsToAttach);
+
+            DB::table('school_class_student')->insert($pivotData);
         }
 
         session()->flash('success', "{$count} alunos importados com sucesso!");
