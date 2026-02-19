@@ -46,7 +46,9 @@ class MarketplaceServiceProvider extends ServiceProvider
      */
     protected function registerCommands(): void
     {
-        // $this->commands([]);
+        $this->commands([
+            \Modules\Marketplace\Console\Commands\GeneratePreviews::class,
+        ]);
     }
 
     /**
