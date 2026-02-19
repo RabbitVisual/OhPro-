@@ -33,8 +33,6 @@ dependencies:
     intl: ^0.20.2
     animations: ^2.1.1
     flutter_pdfview: ^1.4.4
-    mobile_scanner: ^3.4.1
-    audioplayers: ^5.1.0
 
 dev_dependencies:
     flutter_test:
