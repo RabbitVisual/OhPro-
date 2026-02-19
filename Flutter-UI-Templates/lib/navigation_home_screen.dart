@@ -5,6 +5,7 @@ import 'package:best_flutter_ui_templates/feedback_screen.dart';
 import 'package:best_flutter_ui_templates/help_screen.dart';
 import 'package:best_flutter_ui_templates/home_screen.dart';
 import 'package:best_flutter_ui_templates/invite_friend_screen.dart';
+import 'package:best_flutter_ui_templates/features/planning/screens/lesson_plan_library_screen.dart';
 import 'package:flutter/material.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
@@ -54,6 +55,11 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         case DrawerIndex.HOME:
           setState(() {
             screenView = const MyHomePage();
+          });
+          break;
+        case DrawerIndex.LessonPlanLibrary:
+          setState(() {
+            screenView = const LessonPlanLibraryScreen();
           });
           break;
         case DrawerIndex.Help:
