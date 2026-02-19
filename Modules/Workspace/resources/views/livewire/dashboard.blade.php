@@ -67,10 +67,20 @@
 
     {{-- School selector with color feedback --}}
     <div class="mb-6">
-        <h2 class="text-lg font-display font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-            <x-icon name="school" style="duotone" />
-            Minhas escolas
-        </h2>
+        <div class="flex items-center justify-between mb-3">
+            <h2 class="text-lg font-display font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <x-icon name="school" style="duotone" />
+                Minhas escolas
+            </h2>
+            <button
+                type="button"
+                @click="$dispatch('open-create-school')"
+                class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors"
+            >
+                <x-icon name="plus" class="w-4 h-4" />
+                Criar Escola
+            </button>
+        </div>
         <div class="flex flex-wrap gap-2">
             @foreach($this->schools as $school)
                 @php
@@ -108,13 +118,20 @@
             Turmas{{ $this->currentSchool ? ' - ' . $this->currentSchool->name : '' }}
         </h2>
         <div class="flex gap-2">
+            <button
+                type="button"
+                @click="$dispatch('open-create-class')"
+                class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 shadow-sm shadow-indigo-200 dark:shadow-none"
+            >
+                <x-icon name="plus" class="fa-sm" />
+                Nova Turma
+            </button>
             @if(auth()->user()->isPro())
             <a
                 href="{{ route('workspace.import') }}"
                 class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700"
             >
                 <x-icon name="file-import" style="duotone" class="fa-sm" />
-                Importar alunos
                 Importar alunos
             </a>
             <a
@@ -129,7 +146,7 @@
             @endif
             <a
                 href="{{ route('planning.index') }}"
-                class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600"
+                class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700"
             >
                 <x-icon name="book-open-reader" style="duotone" class="fa-sm" />
                 Planos de aula
@@ -162,7 +179,7 @@
             @foreach($this->classes as $class)
                 <a
                     href="{{ route('workspace.show', $class) }}"
-                    class="block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 hover:border-indigo-300 dark:hover:border-indigo-600 transition-colors"
+                    class="block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 hover:border-indigo-300 dark:hover:border-indigo-600 transition-colors group relative"
                 >
                     <div class="flex items-start justify-between">
                         <h3 class="font-display font-semibold text-gray-900 dark:text-white">{{ $class->name }}</h3>
@@ -171,6 +188,16 @@
                                 <x-icon name="users-gear" style="duotone" class="w-3 h-3 mr-1" />
                                 Compartilhada
                             </span>
+                        @else
+                            {{-- Edit Button (Visible on Hover) --}}
+                            <button
+                                type="button"
+                                wire:click.stop="$dispatch('open-edit-class', { classId: {{ $class->id }} })"
+                                class="absolute top-2 right-2 p-1.5 rounded-full bg-white dark:bg-gray-700 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                                title="Editar Turma"
+                            >
+                                <x-icon name="pen-to-square" class="w-3.5 h-3.5" />
+                            </button>
                         @endif
                     </div>
                     @if($class->subject || $class->grade_level)
@@ -200,4 +227,10 @@
             </div>
         </div>
     </template>
+
+    {{-- Creation/Edit Modals --}}
+    <livewire:workspace.create-school />
+    <livewire:workspace.create-class />
+    <livewire:workspace.edit-school />
+    <livewire:workspace.edit-class />
 </div>

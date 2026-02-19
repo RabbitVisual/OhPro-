@@ -11,17 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('referrals', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('school_classes', function (Blueprint $table) {
+            $table->string('color', 7)->default('#6366f1')->after('subject');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('referrals');
+        Schema::table('school_classes', function (Blueprint $table) {
+            $table->dropColumn('color');
+        });
     }
 };

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('pdf_theme')->default('classic')->after('notification_preferences');
+            $table->string('pdf_theme')->default('classic'); // Removed after('notification_preferences') to avoid errors if column missing
         });
     }
 

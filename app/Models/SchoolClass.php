@@ -23,6 +23,7 @@ class SchoolClass extends Model
         'code',
         'grade_level',
         'subject',
+        'color',
         'year',
     ];
 

@@ -4,16 +4,15 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles, SoftDeletes;
+    use HasFactory, HasRoles, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -82,7 +81,7 @@ class User extends Authenticatable
      */
     public function getPhotoUrlAttribute(): string
     {
-        return $this->photo ? asset('storage/' . $this->photo) : asset('assets/images/default-avatar.png');
+        return $this->photo ? asset('storage/'.$this->photo) : asset('assets/images/default-avatar.png');
     }
 
     public function schools(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -129,6 +128,7 @@ class User extends Authenticatable
         if ($sub && $sub->plan) {
             return $sub->plan;
         }
+
         return Plan::where('key', 'free')->firstOrFail();
     }
 
@@ -150,6 +150,7 @@ class User extends Authenticatable
         if ($max === null) {
             return true; // unlimited
         }
+
         return $currentCount < $max;
     }
 
@@ -165,11 +166,12 @@ class User extends Authenticatable
 
     public function getReferralLinkAttribute(): string
     {
-        if (!$this->referral_code) {
+        if (! $this->referral_code) {
             // Generate on the fly if missing (lazy generation)
             app(\App\Services\ReferralService::class)->generateCode($this);
             $this->refresh();
         }
+
         return route('register', ['ref' => $this->referral_code]);
     }
 }
