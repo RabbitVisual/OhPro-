@@ -1,9 +1,27 @@
-<div class="p-4 md:p-6">
     <h1 class="text-xl font-display font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
         <x-icon name="user-check" style="duotone" />
         Chamada rápida
     </h1>
-    <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Data: {{ \Carbon\Carbon::parse($date)->translatedFormat('d/m/Y') }}</p>
+    <div class="flex justify-between items-end mb-6">
+        <p class="text-sm text-gray-500 dark:text-gray-400">Data: {{ \Carbon\Carbon::parse($date)->translatedFormat('d/m/Y') }}</p>
+        <button
+            wire:click="$dispatch('open-scanner')"
+            class="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors font-medium shadow-lg shadow-indigo-200 dark:shadow-none"
+        >
+            <x-icon name="qrcode" style="duotone" />
+            Scanner
+        </button>
+        <a
+            href="{{ route('notebook.classes.print-cards', $schoolClassId) }}"
+            target="_blank"
+            class="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors font-medium ml-2"
+        >
+            <x-icon name="print" style="duotone" />
+            Imprimir Cartões
+        </a>
+    </div>
+
+    <livewire:notebook.attendance-scanner :schoolClassId="$schoolClassId" :date="$date" wire:key="scanner-{{ $schoolClassId }}" />
 
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         @foreach($rows as $row)

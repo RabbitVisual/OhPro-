@@ -83,4 +83,15 @@
              <span class="text-xs text-gray-400">Últimas 10 notificações</span>
         </div>
     </div>
+    </div>
+
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            @this.on('play-notification-sound', () => {
+                const audio = new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg');
+                audio.volume = 0.5;
+                audio.play().catch(e => console.log('Audio error:', e));
+            });
+        });
+    </script>
 </div>

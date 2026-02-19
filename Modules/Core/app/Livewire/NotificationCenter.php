@@ -39,6 +39,21 @@ class NotificationCenter extends Component
         $this->updateCount();
     }
 
+    public function getListeners()
+    {
+        return [
+            // Listen for notification creation using Echo
+            "echo-private:App.Models.User." . auth()->id() . ",.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated" => 'handleNewNotification',
+        ];
+    }
+
+    public function handleNewNotification($event)
+    {
+        $this->updateCount();
+        $this->dispatch('play-notification-sound');
+        // We can also toast or refresh the list
+    }
+
     public function render()
     {
         return view('core::livewire.notification-center');

@@ -8,8 +8,9 @@
 
 namespace Modules\Marketplace\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
 // use Modules\Marketplace\Database\Factories\MarketplaceItemFactory;
 
 class MarketplaceItem extends Model
@@ -32,6 +33,19 @@ class MarketplaceItem extends Model
         'preview_path',
         'sales_count',
     ];
+
+    protected $appends = ['average_rating'];
+
+    public function reviews()
+    {
+        return $this->hasMany(MarketplaceReview::class, 'marketplace_item_id');
+    }
+
+    public function getAverageRatingAttribute()
+    {
+        // Cache this ideally, but for now simple agg
+        return round($this->reviews()->avg('rating') ?? 0, 1);
+    }
 
     protected $casts = [
         'price' => 'decimal:2',

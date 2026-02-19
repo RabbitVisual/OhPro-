@@ -174,4 +174,24 @@ class User extends Authenticatable
 
         return route('register', ['ref' => $this->referral_code]);
     }
+
+    public function getIsTopSellerAttribute(): bool
+    {
+        return \Modules\Marketplace\app\Models\MarketplaceItem::where('user_id', $this->id)
+            ->sum('sales_count') >= 50;
+    }
+
+    public function getIsCommunityChoiceAttribute(): bool
+    {
+        $avg = \Modules\Marketplace\app\Models\MarketplaceReview::whereHas('item', function($q) {
+            $q->where('user_id', $this->id);
+        })->avg('rating');
+
+        return $avg && $avg > 4.8;
+    }
+
+    public function getIsAiPioneerAttribute(): bool
+    {
+        return \App\Models\AiGenerationLog::where('user_id', $this->id)->count() >= 100;
+    }
 }

@@ -107,6 +107,8 @@ class PublicProfile extends Component
     {
         $items = MarketplaceItem::where('user_id', $this->user->id)
             ->where('status', 'published')
+            ->with('reviews')
+            ->withCount('reviews')
             ->latest()
             ->get();
 

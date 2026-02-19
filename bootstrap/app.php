@@ -9,6 +9,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         commands: __DIR__.'/../routes/console.php',
+        channels: __DIR__.'/../routes/channels.php',
         health: '/up',
         then: function () {
             Route::middleware('web')->group(base_path('routes/teacher.php'));
@@ -33,6 +34,7 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->expectsJson()) {
                 return response()->json(['message' => __('Não tem permissão para aceder a esta área.')], 403);
             }
+
             return $request->user()
                 ? redirect()->route('dashboard')->with('error', __('Não tem permissão para aceder a esta área.'))
                 : redirect()->guest(route('login'));

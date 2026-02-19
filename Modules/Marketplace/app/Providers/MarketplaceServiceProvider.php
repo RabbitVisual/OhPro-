@@ -29,6 +29,7 @@ class MarketplaceServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(module_path($this->name, 'database/migrations'));
 
         \Livewire\Livewire::component('marketplace.publish-item', \Modules\Marketplace\Livewire\PublishItem::class);
+        \Livewire\Livewire::component('marketplace.review-form', \Modules\Marketplace\Livewire\ReviewForm::class);
     }
 
     /**

@@ -24,7 +24,27 @@
                 </div>
 
                 <div class="text-center sm:text-left">
-                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $user->name }}</h1>
+                    <div class="flex items-center justify-center sm:justify-start gap-2">
+                        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $user->name }}</h1>
+                        @if($user->is_top_seller)
+                            <div class="group relative">
+                                <x-icon name="medal" style="duotone" class="text-yellow-500 text-xl" />
+                                <div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Top Seller (50+ Vendas)</div>
+                            </div>
+                        @endif
+                        @if($user->is_community_choice)
+                            <div class="group relative">
+                                <x-icon name="heart" style="duotone" class="text-red-500 text-xl" />
+                                <div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Escolha da Comunidade (Nota > 4.8)</div>
+                            </div>
+                        @endif
+                        @if($user->is_ai_pioneer)
+                            <div class="group relative">
+                                <x-icon name="robot" style="duotone" class="text-blue-500 text-xl" />
+                                <div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Pioneiro IA (100+ Gerações)</div>
+                            </div>
+                        @endif
+                    </div>
                     <p class="text-indigo-600 dark:text-indigo-400 font-medium">{{ $user->public_title ?? 'Professor(a)' }}</p>
 
                     @if($user->bio)
@@ -60,6 +80,12 @@
                             <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
                         </div>
                         <div class="p-4 flex-1 flex flex-col">
+                            <div class="flex items-center gap-1 mb-2">
+                                @for($i=1; $i<=5; $i++)
+                                    <x-icon name="star" style="{{ $i <= round($item->average_rating) ? 'solid' : 'regular' }}" class="{{ $i <= round($item->average_rating) ? 'text-yellow-400' : 'text-gray-300' }} text-xs" />
+                                @endfor
+                                <span class="text-xs text-gray-500 ml-1">({{ $item->reviews_count }})</span>
+                            </div>
                             <h3 class="font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2" title="{{ $item->title }}">
                                 {{ $item->title }}
                             </h3>
@@ -75,11 +101,18 @@
                                     <span wire:loading wire:target="buy({{ $item->id }})"><x-icon name="spinner" class="fa-spin" style="duotone" /></span>
                                 </button>
                             </div>
+                            <div class="mt-2 text-right">
+                                <button wire:click="$dispatch('open-review-modal', { itemId: {{ $item->id }} })" class="text-xs text-indigo-600 hover:text-indigo-800 font-medium dark:text-indigo-400 dark:hover:text-indigo-300">
+                                    Avaliar
+                                </button>
+                            </div>
                         </div>
                     </div>
                 @endforeach
             </div>
         @endif
+
+        <livewire:marketplace.review-form />
 
         <div class="mt-12 text-center text-sm text-gray-500 dark:text-gray-400">
             <p>Criado com <strong class="text-indigo-600">Vertex OhPro</strong></p>
