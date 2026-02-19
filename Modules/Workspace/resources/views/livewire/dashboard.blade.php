@@ -115,6 +115,14 @@
             >
                 <x-icon name="file-import" style="duotone" class="fa-sm" />
                 Importar alunos
+                Importar alunos
+            </a>
+            <a
+                href="{{ route('google.redirect') }}"
+                class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700"
+            >
+                <x-icon name="google" :brand="true" class="fa-sm text-red-500" />
+                Sincronizar Google
             </a>
             @else
             <x-feature-locked feature="Importar alunos" />
@@ -156,7 +164,15 @@
                     href="{{ route('workspace.show', $class) }}"
                     class="block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 hover:border-indigo-300 dark:hover:border-indigo-600 transition-colors"
                 >
-                    <h3 class="font-display font-semibold text-gray-900 dark:text-white">{{ $class->name }}</h3>
+                    <div class="flex items-start justify-between">
+                        <h3 class="font-display font-semibold text-gray-900 dark:text-white">{{ $class->name }}</h3>
+                        @if(!$class->isOwner(auth()->user()))
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200" title="Turma Compartilhada">
+                                <x-icon name="users-gear" style="duotone" class="w-3 h-3 mr-1" />
+                                Compartilhada
+                            </span>
+                        @endif
+                    </div>
                     @if($class->subject || $class->grade_level)
                         <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                             {{ implode(' · ', array_filter([$class->grade_level, $class->subject])) }}

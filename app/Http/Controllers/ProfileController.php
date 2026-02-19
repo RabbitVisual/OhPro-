@@ -52,6 +52,10 @@ class ProfileController extends Controller
             $user->update(['signature_path' => $path]);
         }
 
+        if ($request->has('pdf_theme')) {
+            $user->update(['pdf_theme' => $request->input('pdf_theme')]);
+        }
+
         return redirect()->route('profile.edit')->with('success', __('Perfil atualizado.'));
     }
 

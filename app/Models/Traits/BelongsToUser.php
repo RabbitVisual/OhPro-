@@ -13,7 +13,18 @@ trait BelongsToUser
     {
         static::addGlobalScope('user', function (Builder $builder) {
             if (auth()->check()) {
-                $builder->where($builder->getModel()->getTable() . '.user_id', auth()->id());
+                $user = auth()->user();
+                $model = $builder->getModel();
+
+                $builder->where(function ($query) use ($user, $model) {
+                    // Start with the basic ownership check
+                    $query->where($model->getTable() . '.user_id', $user->id);
+
+                    // Allow model to extend the OR condition (e.g., shared access)
+                    if (method_exists($model, 'extendBelongsToUserScope')) {
+                        $model->extendBelongsToUserScope($query, $user);
+                    }
+                });
             }
         });
     }

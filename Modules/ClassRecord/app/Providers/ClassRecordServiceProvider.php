@@ -19,6 +19,7 @@ class ClassRecordServiceProvider extends ServiceProvider
     public function boot(): void
     {
         \Livewire\Livewire::component('classrecord.student-import', \Modules\ClassRecord\Livewire\StudentImport::class);
+        \Livewire\Livewire::component('classrecord.import-google-roster', \Modules\ClassRecord\Livewire\ImportGoogleRoster::class);
         \Livewire\Livewire::component('classrecord.at-risk-widget', \Modules\ClassRecord\Livewire\AtRiskWidget::class);
         $this->registerCommands();
         $this->registerCommandSchedules();

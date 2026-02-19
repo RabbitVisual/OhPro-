@@ -26,6 +26,7 @@ class WorkspaceServiceProvider extends ServiceProvider
         \Livewire\Livewire::component('workspace.weekly-agenda', \Modules\Workspace\Livewire\WeeklyAgenda::class);
         \Livewire\Livewire::component('workspace.student-portfolio', \Modules\Workspace\Livewire\StudentPortfolio::class);
         \Livewire\Livewire::component('workspace.financial-overview-widget', \Modules\Workspace\Livewire\FinancialOverviewWidget::class);
+        \Livewire\Livewire::component('workspace.invite-teacher', \Modules\Workspace\Livewire\InviteTeacher::class);
         $this->registerCommands();
         $this->registerCommandSchedules();
         $this->registerTranslations();

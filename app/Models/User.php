@@ -38,6 +38,7 @@ class User extends Authenticatable
         'current_school_id',
         'hourly_rate',
         'notification_preferences',
+        'pdf_theme',
     ];
 
     /**

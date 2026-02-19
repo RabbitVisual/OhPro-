@@ -43,6 +43,31 @@ class SchoolClass extends Model
         return $this->belongsTo(School::class);
     }
 
+    public function teachers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'school_class_user')
+            ->withPivot('role')
+            ->withTimestamps();
+    }
+
+    public function isOwner(User $user): bool
+    {
+        return $this->user_id === $user->id;
+    }
+
+    public function isContributor(User $user): bool
+    {
+        return $this->teachers()
+            ->where('user_id', $user->id)
+            ->wherePivot('role', 'contributor')
+            ->exists();
+    }
+
+    public function hasAccess(User $user): bool
+    {
+        return $this->isOwner($user) || $this->teachers()->where('user_id', $user->id)->exists();
+    }
+
     public function lessonPlans(): BelongsToMany
     {
         return $this->belongsToMany(LessonPlan::class, 'lesson_plan_school_class', 'school_class_id', 'lesson_plan_id')
@@ -74,5 +99,15 @@ class SchoolClass extends Model
     public function classDiaries(): HasMany
     {
         return $this->hasMany(ClassDiary::class, 'school_class_id');
+    }
+
+    /**
+     * Extend the user scope to include classes where the user is a teacher (contributor).
+     */
+    public function extendBelongsToUserScope($query, $user)
+    {
+        $query->orWhereHas('teachers', function ($q) use ($user) {
+            $q->where('users.id', $user->id);
+        });
     }
 }

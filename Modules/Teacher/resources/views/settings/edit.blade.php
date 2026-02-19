@@ -108,6 +108,28 @@
                             </div>
                         </div>
 
+                        <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
+                             <h3 class="text-base font-medium text-gray-900 dark:text-white mb-2">Tema dos Relatórios (PDF)</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Escolha o layout padrão para seus diários e boletins.</p>
+
+                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                @foreach(\Modules\ClassRecord\Enums\PdfTheme::cases() as $theme)
+                                    <label class="relative cursor-pointer">
+                                        <input type="radio" name="pdf_theme" value="{{ $theme->value }}" class="sr-only peer" {{ ($user->pdf_theme ?? 'classic') === $theme->value ? 'checked' : '' }}>
+                                        <div class="p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-700 peer-checked:border-indigo-600 peer-checked:ring-1 peer-checked:ring-indigo-600 transition-all">
+                                            <div class="font-medium text-gray-900 dark:text-white mb-1">{{ $theme->label() }}</div>
+                                            <div class="text-xs text-gray-500">
+                                                @if($theme->value === 'classic') Layout padrão, equilibrado.
+                                                @elseif($theme->value === 'modern') Visual limpo, sem bordas pesadas.
+                                                @elseif($theme->value === 'compact') Ideal para listas longas, economiza papel.
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
+
                         <div class="flex justify-end">
                             <button type="submit" class="px-6 py-2.5 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-500/20">
                                 Salvar Alterações

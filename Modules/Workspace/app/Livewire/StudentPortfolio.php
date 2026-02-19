@@ -23,14 +23,76 @@ class StudentPortfolio extends Component
 
     public int $reportCycle = 1;
 
+    public bool $showGuestLinkModal = false;
+    public string $guestLink = '';
+    public ?string $guestTokenExpiry = null;
+
     public function mount(int $studentId): void
     {
         $this->studentId = $studentId;
         $student = Student::findOrFail($studentId);
+
+        // Allow owner or if we implement shared students later
+        // For now strict owner check is in place, but let's relax if needed or keep strictly owner
         if ($student->user_id !== auth()->id()) {
-            abort(403);
+             // Check if user is a collaborator in any of the student's classes
+             $hasAccess = $student->schoolClasses()
+                ->whereHas('teachers', function($q) {
+                    $q->where('users.id', auth()->id());
+                })->exists();
+
+             if (!$hasAccess) {
+                 abort(403);
+             }
         }
         $this->newOccurredAt = now()->format('Y-m-d\TH:i');
+    }
+
+    public function openGuestLinkModal()
+    {
+        $this->showGuestLinkModal = true;
+
+        // Check for existing active token
+        $token = \Modules\ClassRecord\Models\GuestAccessToken::where('student_id', $this->studentId)
+            ->where('active', true)
+            ->where('expires_at', '>', now())
+            ->latest()
+            ->first();
+
+        if ($token) {
+            $this->guestLink = route('portal.guest', $token->token);
+            $this->guestTokenExpiry = $token->expires_at->format('d/m/Y');
+        } else {
+            $this->guestLink = '';
+            $this->guestTokenExpiry = null;
+        }
+    }
+
+    public function generateGuestLink()
+    {
+        $tokenStr = \Illuminate\Support\Str::random(32);
+
+        \Modules\ClassRecord\Models\GuestAccessToken::create([
+            'student_id' => $this->studentId,
+            'token' => $tokenStr,
+            'expires_at' => now()->addDays(30),
+            'created_by' => auth()->id(),
+            'active' => true,
+        ]);
+
+        $this->guestLink = route('portal.guest', $tokenStr);
+        $this->guestTokenExpiry = now()->addDays(30)->format('d/m/Y');
+        $this->dispatch('toast', message: 'Link gerado com sucesso!', type: 'success');
+    }
+
+    public function revokeGuestLink()
+    {
+        \Modules\ClassRecord\Models\GuestAccessToken::where('student_id', $this->studentId)
+            ->update(['active' => false]);
+
+        $this->guestLink = '';
+        $this->guestTokenExpiry = null;
+        $this->dispatch('toast', message: 'Link revogado.', type: 'info');
     }
 
     public function getStudentProperty()
