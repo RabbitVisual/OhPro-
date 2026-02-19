@@ -42,9 +42,13 @@
                         <x-icon name="credit-card" style="duotone" class="w-5 h-5" />
                         Assinatura
                     </button>
-                     <button @click="tab = 'security'" :class="{'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white': tab === 'security', 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800': tab !== 'security'}" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors">
+                    <button @click="tab = 'security'" :class="{'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white': tab === 'security', 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800': tab !== 'security'}" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors">
                         <x-icon name="shield-check" style="duotone" class="w-5 h-5" />
                         Segurança
+                    </button>
+                    <button @click="tab = 'privacy'" :class="{'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white': tab === 'privacy', 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800': tab !== 'privacy'}" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors">
+                        <x-icon name="user-shield" style="duotone" class="w-5 h-5" />
+                        Privacidade e Dados
                     </button>
                 </nav>
             </aside>
@@ -297,7 +301,55 @@
                         </div>
                     </div>
                 </div>
+                </div>
+
+                {{-- Privacy Tab --}}
+                <div x-show="tab === 'privacy'" x-transition class="space-y-6" style="display: none;">
+                    <div>
+                         <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Privacidade e Dados (LGPD)</h2>
+                         <p class="text-sm text-gray-500 dark:text-gray-400">Gerencie seus dados e direitos de privacidade.</p>
+                    </div>
+
+                    <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
+                        <div class="flex items-start gap-4">
+                            <div class="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg text-blue-600">
+                                <x-icon name="download" style="duotone" class="w-6 h-6" />
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-base font-medium text-gray-900 dark:text-white">Portabilidade de Dados</h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-4">
+                                    Baixe uma cópia completa dos seus dados (escolas, turmas, alunos e planejamentos) em formato JSON.
+                                    O arquivo será gerado e enviado para seu e-mail.
+                                </p>
+                                <form action="{{ route('profile.privacy.export') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="px-4 py-2 bg-white border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                        Solicitar Meus Dados
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-900/10 p-6">
+                        <div class="flex items-start gap-4">
+                            <div class="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg text-red-600">
+                                <x-icon name="trash" style="duotone" class="w-6 h-6" />
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-base font-medium text-red-700 dark:text-red-400">Excluir Conta</h3>
+                                <p class="text-sm text-red-600 dark:text-red-300 mt-1 mb-4">
+                                    Excluir permanentemente sua conta e todos os dados associados. Esta ação não pode ser desfeita.
+                                </p>
+                                <form action="{{ route('profile.privacy.delete') }}" method="POST" onsubmit="return confirm('Tem certeza absoluta? Esta ação é irreversível.')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors">
+                                        Excluir Minha Conta
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</x-layouts.app-sidebar>

@@ -82,12 +82,29 @@
         </div>
 
         {{-- Additional Content Placeholder --}}
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 opacity-50 pointer-events-none grayscale">
-             <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 h-64 flex items-center justify-center">
-                <span class="text-gray-400">Gráfico de Crescimento (Em Breve)</span>
-             </div>
-             <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 h-64 flex items-center justify-center">
-                <span class="text-gray-400">Atividades Recentes (Em Breve)</span>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2">
+                 <livewire:admin.security-feed />
+            </div>
+             <div class="bg-gradient-to-br from-indigo-600 to-purple-700 text-white p-6 rounded-2xl shadow-lg flex flex-col justify-between">
+                <div>
+                    <h3 class="text-lg font-bold">Status do Sistema</h3>
+                    <p class="text-indigo-100 text-sm mt-1">Todos os serviços operando normalmente.</p>
+                </div>
+                <div class="mt-6 space-y-3">
+                    <div class="flex items-center justify-between text-sm">
+                        <span>Banco de Dados</span>
+                        <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-100 border border-emerald-500/30 text-xs">Online</span>
+                    </div>
+                    <div class="flex items-center justify-between text-sm">
+                        <span>Filas (Redis)</span>
+                        <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-100 border border-emerald-500/30 text-xs">Online</span>
+                    </div>
+                     <div class="flex items-center justify-between text-sm">
+                        <span>Google Sync</span>
+                        <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-100 border border-emerald-500/30 text-xs">Ativo</span>
+                    </div>
+                </div>
              </div>
         </div>
     </div>

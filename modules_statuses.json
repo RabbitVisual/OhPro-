@@ -11,5 +11,6 @@
     "Library": true,
     "Billing": true,
     "ClassRecord": true,
-    "Manager": true
+    "Manager": true,
+    "Notifications": true
 }

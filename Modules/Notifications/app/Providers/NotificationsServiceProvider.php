@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Admin\Providers;
+namespace Modules\Notifications\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -8,13 +8,13 @@ use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
-class AdminServiceProvider extends ServiceProvider
+class NotificationsServiceProvider extends ServiceProvider
 {
     use PathNamespace;
 
-    protected string $name = 'Admin';
+    protected string $name = 'Notifications';
 
-    protected string $nameLower = 'admin';
+    protected string $nameLower = 'notifications';
 
     /**
      * Boot the application events.
@@ -27,7 +27,6 @@ class AdminServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->name, 'database/migrations'));
-        \Livewire\Livewire::component('admin.security-feed', \Modules\Admin\Livewire\SecurityFeed::class);
     }
 
     /**

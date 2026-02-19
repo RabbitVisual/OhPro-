@@ -79,12 +79,8 @@
                     <span>Buscar (Ctrl+K)</span>
                 </button>
 
-                 <div class="flex items-center gap-4">
-                    {{-- Notifications Bell Placeholder --}}
-                    <button class="relative p-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
-                        <x-icon name="bell" class="w-5 h-5" />
-                        {{-- <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span> --}}
-                    </button>
+                    <div class="flex items-center gap-4">
+                        <livewire:core.notification-center />
 
                     <div class="flex items-center gap-2">
                          <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold text-xs">
