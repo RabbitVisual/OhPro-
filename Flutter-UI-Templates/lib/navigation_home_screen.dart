@@ -5,6 +5,7 @@ import 'package:best_flutter_ui_templates/feedback_screen.dart';
 import 'package:best_flutter_ui_templates/help_screen.dart';
 import 'package:best_flutter_ui_templates/home_screen.dart';
 import 'package:best_flutter_ui_templates/invite_friend_screen.dart';
+import 'package:best_flutter_ui_templates/features/profile/profile_screen.dart';
 import 'package:best_flutter_ui_templates/features/planning/screens/lesson_plan_library_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -57,6 +58,9 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
             screenView = const MyHomePage();
           });
           break;
+        case DrawerIndex.Profile:
+          setState(() {
+            screenView = ProfileScreen();
         case DrawerIndex.LessonPlanLibrary:
           setState(() {
             screenView = const LessonPlanLibraryScreen();
