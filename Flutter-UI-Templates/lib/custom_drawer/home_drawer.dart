@@ -33,6 +33,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
         icon: Icon(Icons.home),
       ),
       DrawerList(
+        index: DrawerIndex.Profile,
+        labelName: 'Profile',
+        icon: Icon(Icons.person),
+        index: DrawerIndex.LessonPlanLibrary,
+        labelName: 'Lesson Plans',
+        icon: Icon(Icons.library_books),
+      ),
+      DrawerList(
         index: DrawerIndex.Help,
         labelName: 'Help',
         isAssetsImage: true,
@@ -296,12 +304,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
 
 enum DrawerIndex {
   HOME,
+  Profile,
   FeedBack,
   Help,
   Share,
   About,
   Invite,
   Testing,
+  LessonPlanLibrary,
 }
 
 class DrawerList {

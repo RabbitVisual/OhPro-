@@ -10,7 +10,6 @@ namespace Modules\Finance\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Modules\Finance\Database\Factories\TransactionFactory;
 
 class Transaction extends Model
 {
@@ -36,8 +35,4 @@ class Transaction extends Model
     {
         return $this->belongsTo(Wallet::class);
     }
-    // protected static function newFactory(): TransactionFactory
-    // {
-    //     // return TransactionFactory::new();
-    // }
 }

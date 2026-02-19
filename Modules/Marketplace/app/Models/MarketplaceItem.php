@@ -11,8 +11,6 @@ namespace Modules\Marketplace\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-// use Modules\Marketplace\Database\Factories\MarketplaceItemFactory;
-
 class MarketplaceItem extends Model
 {
     use HasFactory;
@@ -66,8 +64,4 @@ class MarketplaceItem extends Model
     {
         return $this->belongsTo(\Modules\Library\app\Models\LibraryFile::class);
     }
-    // protected static function newFactory(): MarketplaceItemFactory
-    // {
-    //     // return MarketplaceItemFactory::new();
-    // }
 }

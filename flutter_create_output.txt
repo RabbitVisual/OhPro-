@@ -1,0 +1,17 @@
+Creating project vertex_oh_pro_mobile...
+Resolving dependencies in `vertex_oh_pro_mobile`...
+Downloading packages...
+Got dependencies in `vertex_oh_pro_mobile`.
+Wrote 130 files.
+
+All done!
+You can find general documentation for Flutter at: https://docs.flutter.dev/
+Detailed API documentation is available at: https://api.flutter.dev/
+If you prefer video documentation, consider: https://www.youtube.com/c/flutterdev
+
+In order to run your application, type:
+
+  $ cd vertex_oh_pro_mobile
+  $ flutter run
+
+Your application code is in vertex_oh_pro_mobile/lib/main.dart.
