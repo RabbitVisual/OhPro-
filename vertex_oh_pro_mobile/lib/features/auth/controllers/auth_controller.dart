@@ -15,8 +15,8 @@ class AuthController extends GetxController {
 
   Future<void> checkLoginStatus() async {
     final prefs = await SharedPreferences.getInstance();
-    finaltoken = prefs.getString('auth_token');
-    if (finaltoken != null) {
+    final token = prefs.getString('auth_token');
+    if (token != null) {
       // Validate token or just go to home
       // For now, assuming valid
       Get.offAllNamed('/home');

@@ -5,13 +5,13 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
-Route::post('/login', function (Request ) {
-     = ->validate([
+Route::post('/login', function (Request $request) {
+    $credentials = $request->validate([
         'email' => ['required', 'email'],
         'password' => ['required'],
     ]);
 
-    if (Auth::attempt()) {
+    if (Auth::attempt($credentials)) {
         /** @var \App\Models\User $user */
         $user = Auth::user();
         $token = $user->createToken('auth-token')->plainTextToken;
@@ -25,6 +25,6 @@ Route::post('/login', function (Request ) {
     return response()->json(['message' => 'Unauthorized'], 401);
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request ) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
