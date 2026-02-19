@@ -27,6 +27,7 @@ class TeacherServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->name, 'database/migrations'));
+        \Livewire\Livewire::component('teacher.annual-review', \Modules\Teacher\Livewire\AnnualReview::class);
     }
 
     /**

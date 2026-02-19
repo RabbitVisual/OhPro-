@@ -28,6 +28,7 @@ class SupportServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->name, 'database/migrations'));
         \Livewire\Livewire::component('support::ticket-manager', \Modules\Support\Livewire\TicketManager::class);
+        \Livewire\Livewire::component('support-create-ticket', \Modules\Support\Livewire\CreateTicket::class);
     }
 
     /**

@@ -8,7 +8,12 @@ use App\Models\User;
 
 class SecurityLog extends Model
 {
-    use HasFactory;
+    use HasFactory, \Illuminate\Database\Eloquent\Prunable;
+
+    public function prunable()
+    {
+        return static::where('created_at', '<=', now()->subYear());
+    }
 
     protected $fillable = [
         'user_id',

@@ -7,27 +7,44 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div class="space-y-8 text-center lg:text-left">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 font-semibold text-sm border border-indigo-100 dark:border-indigo-900">
-                    <x-icon :name="config('icon.homepage.hero_badge', 'chalkboard-user')" style="duotone" />
-                    <span>Caderno digital do professor</span>
+            <div class="space-y-8 text-center lg:text-left relative z-20">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 font-semibold text-sm border border-indigo-100 dark:border-indigo-900 shadow-sm backdrop-blur-sm">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                    </span>
+                    <span>A plataforma #1 para professores</span>
                 </div>
 
-                <h1 class="text-5xl md:text-7xl font-display font-bold text-slate-950 dark:text-white leading-[1.1]">
-                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">Oh Pro!</span> — Tudo em um só lugar.
+                <h1 class="text-5xl md:text-7xl font-display font-bold text-slate-950 dark:text-white leading-[1.1] tracking-tight">
+                    Planeje aulas em <br>
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400 animate-gradient-x">segundos, não horas.</span>
                 </h1>
 
                 <p class="text-xl text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                    Workspace com escolas e turmas, planos de aula, notas e chamada em planilha, diário de classe com assinatura digital e widget da próxima aula. Feito para o professor ganhar tempo e cumprir as exigências com leveza.
+                    O VertexOh! Pro une Inteligência Artificial e gestão escolar. Crie planos de aula alinhados à BNCC, faça chamadas e lance notas em uma única tela.
                 </p>
 
                 <div class="flex flex-col sm:flex-row items-center gap-4 py-4 justify-center lg:justify-start">
-                    <a href="{{ route('register') }}" class="w-full sm:w-auto px-10 py-5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold text-lg shadow-2xl shadow-indigo-200 dark:shadow-none transition-all hover:-translate-y-1 active:translate-y-0 text-center">
-                        Criar Minha Conta Grátis
+                    <a href="{{ route('register') }}" class="group w-full sm:w-auto px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold text-lg shadow-xl shadow-indigo-500/20 hover:shadow-indigo-500/40 transition-all hover:-translate-y-1 active:translate-y-0 text-center flex items-center justify-center gap-2">
+                        Começar Grátis
+                        <x-icon name="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </a>
-                    <a href="{{ route('home') }}#funcionalidades" class="w-full sm:w-auto px-10 py-5 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 rounded-2xl font-bold text-lg border border-slate-200 dark:border-slate-800 hover:border-indigo-400 transition-all text-center">
-                        Ver Demonstração
+                    <a href="#funcionalidades" class="w-full sm:w-auto px-8 py-4 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 rounded-2xl font-bold text-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all text-center flex items-center justify-center gap-2">
+                        <x-icon name="play-circle" style="duotone" class="w-5 h-5 text-indigo-500" />
+                        Ver como funciona
                     </a>
+                </div>
+
+                <div class="flex items-center gap-4 justify-center lg:justify-start text-sm text-slate-500 dark:text-slate-400">
+                    <div class="flex items-center gap-1">
+                        <x-icon name="check" class="w-4 h-4 text-emerald-500" />
+                        <span>Sem cartão de crédito</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <x-icon name="check" class="w-4 h-4 text-emerald-500" />
+                        <span>Plano Gratuito Vitalício</span>
+                    </div>
                 </div>
             </div>
 

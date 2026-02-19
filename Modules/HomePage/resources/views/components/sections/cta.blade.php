@@ -21,7 +21,7 @@
                     <a href="{{ route('register') }}" class="w-full sm:w-auto px-12 py-6 bg-white text-indigo-600 rounded-2xl font-bold text-xl shadow-2xl hover:bg-slate-50 transition-all hover:-translate-y-1 active:translate-y-0 text-center">
                         Começar Agora Grátis
                     </a>
-                    <a href="{{ route('contact') }}" class="w-full sm:w-auto px-12 py-6 bg-transparent text-white border-2 border-white/30 rounded-2xl font-bold text-xl hover:bg-white/10 transition-all text-center">
+                    <a href="{{ route('contact') }}?subject=sales" class="w-full sm:w-auto px-12 py-6 bg-transparent text-white border-2 border-white/30 rounded-2xl font-bold text-xl hover:bg-white/10 transition-all text-center">
                         Falar com Consultor
                     </a>
                 </div>

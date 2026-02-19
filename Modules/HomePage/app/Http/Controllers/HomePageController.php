@@ -10,7 +10,12 @@ class HomePageController extends Controller
 {
     public function index()
     {
-        return view('HomePage::index');
+        $seo = [
+            'title' => 'VertexOh! Pro - Planejamento Escolar com IA',
+            'description' => 'Reduza seu tempo de planejamento em 80%. O VertexOh! Pro oferece criador de planos de aula com IA, diários digitais e relatórios automáticos.',
+            'image' => asset('assets/images/og-home.jpg'),
+        ];
+        return view('HomePage::index', compact('seo'));
     }
 
     public function create()

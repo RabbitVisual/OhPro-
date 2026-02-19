@@ -3,8 +3,8 @@
 namespace Modules\Support\Models;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Ticket extends Model
 {
@@ -14,6 +14,8 @@ class Ticket extends Model
 
     protected $fillable = [
         'user_id',
+        'guest_name',
+        'guest_email',
         'subject',
         'category',
         'message',
@@ -44,7 +46,7 @@ class Ticket extends Model
 
     public function getStatusLabelAttribute()
     {
-        return match($this->status) {
+        return match ($this->status) {
             'open' => 'Aberto',
             'in_progress' => 'Em andamento',
             'answered' => 'Respondido',
@@ -55,7 +57,7 @@ class Ticket extends Model
 
     public function getStatusColorAttribute()
     {
-        return match($this->status) {
+        return match ($this->status) {
             'open' => 'blue',
             'in_progress' => 'amber',
             'answered' => 'emerald',

@@ -21,6 +21,21 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ $title ?? config('app.name', 'Oh Pro!') }}</title>
+    <meta name="description" content="{{ $description ?? 'A plataforma completa para professores modernos. Planejamento com IA, diários digitais e muito mais.' }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="{{ $title ?? config('app.name') }}">
+    <meta property="og:description" content="{{ $description ?? 'A plataforma completa para professores modernos. Planejamento com IA, diários digitais e muito mais.' }}">
+    <meta property="og:image" content="{{ $image ?? asset('assets/images/og-image.jpg') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="{{ $title ?? config('app.name') }}">
+    <meta property="twitter:description" content="{{ $description ?? 'A plataforma completa para professores modernos. Planejamento com IA, diários digitais e muito mais.' }}">
+    <meta property="twitter:image" content="{{ $image ?? asset('assets/images/og-image.jpg') }}">
 
     <!-- Anti-Flicker Script -->
     <script>

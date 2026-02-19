@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('support_tickets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->string('guest_name')->nullable();
+            $table->string('guest_email')->nullable();
             $table->string('subject');
             $table->string('category')->default('other'); // billing, technical, suggestion, other
             $table->text('message');

@@ -1,9 +1,14 @@
-<section id="funcionalidades" class="py-32 bg-slate-50 dark:bg-slate-950/50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section id="funcionalidades" class="py-32 bg-slate-50/50 dark:bg-slate-950/50 relative overflow-hidden">
+    {{-- Decorative Blobs --}}
+    <div class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-purple-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center max-w-3xl mx-auto mb-20 space-y-4">
             <h2 class="text-indigo-600 dark:text-indigo-400 font-bold tracking-widest uppercase text-sm">Funcionalidades</h2>
             <p class="text-4xl md:text-5xl font-display font-bold text-slate-950 dark:text-white leading-tight">
-                Tudo o que você precisa em um só lugar.
+                Tudo o que você precisa <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">em um só lugar.</span>
             </p>
             <p class="text-lg text-slate-600 dark:text-slate-400">
                 Desenvolvemos ferramentas específicas para o fluxo de trabalho real dos professores brasileiros.
@@ -14,30 +19,33 @@
             @php
                 $featureIcons = config('icon.homepage.features', ['folder-open', 'book', 'chalkboard-user', 'calendar-days', 'cart-shopping', 'users']);
                 $colorClasses = [
-                    'indigo' => 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400',
-                    'purple' => 'bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400',
-                    'emerald' => 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400',
-                    'blue' => 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400',
-                    'amber' => 'bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400',
-                    'rose' => 'bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400',
+                    'indigo' => 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 ring-indigo-100 dark:ring-indigo-900',
+                    'purple' => 'bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 ring-purple-100 dark:ring-purple-900',
+                    'emerald' => 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 ring-emerald-100 dark:ring-emerald-900',
+                    'blue' => 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 ring-blue-100 dark:ring-blue-900',
+                    'amber' => 'bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 ring-amber-100 dark:ring-amber-900',
+                    'rose' => 'bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 ring-rose-100 dark:ring-rose-900',
                 ];
                 $features = [
-                    ['title' => 'Workspace — Escolas e Turmas', 'desc' => 'Organize suas escolas e turmas em um só lugar. Troque de escola com um clique e acesse cada turma para iniciar aula, notas e chamada.', 'color' => 'indigo'],
-                    ['title' => 'Planos de Aula', 'desc' => 'Crie e edite planos de aula com templates. Vincule planos às turmas e use o conteúdo ao lançar a aula no diário.', 'color' => 'purple'],
-                    ['title' => 'Notas — Planilha que salva sozinha', 'desc' => 'Planilha de notas por turma (Av1, Av2, Av3 e média com pesos). Autosave ao sair do campo; toque amigável no celular.', 'color' => 'emerald'],
-                    ['title' => 'Chamada Rápida', 'desc' => 'Chamada em cards grandes: um toque para presente ou ausente. Ícones verde e vermelho para marcar a frequência do dia.', 'color' => 'blue'],
-                    ['title' => 'Diário de Classe e Assinatura', 'desc' => 'Inicie a aula a partir do plano aplicado. Preencha o registro e finalize com assinatura digital para cumprir a exigência legal.', 'color' => 'amber'],
-                    ['title' => 'Sua Próxima Aula', 'desc' => 'Widget no painel mostra a próxima aula conforme a grade. Ações rápidas: Iniciar Aula, Fazer Chamada e Ver Plano.', 'color' => 'rose'],
+                    ['title' => 'Workspace Escolar', 'desc' => 'Organize suas escolas e turmas em um só lugar. Troque de escola com um clique e acesse tudo rapidamente.', 'color' => 'indigo'],
+                    ['title' => 'IA Geradora de Planos', 'desc' => 'Crie planos de aula completos e alinhados à BNCC em segundos. Personalize objetivos e metodologia.', 'color' => 'purple'],
+                    ['title' => 'Notas Automáticas', 'desc' => 'Planilha de notas inteligente com cálculo automático de média e salvamento automático.', 'color' => 'emerald'],
+                    ['title' => 'Chamada Rápida', 'desc' => 'Chamada em cards grandes e intuitivos. Um toque para presente, dois para ausente.', 'color' => 'blue'],
+                    ['title' => 'Diário e Assinatura', 'desc' => 'Gere PDFs dos seus diários prontos para imprimir ou assinar digitalmente.', 'color' => 'amber'],
+                    ['title' => 'Painel Próxima Aula', 'desc' => 'Saiba exatamente onde é sua próxima aula e o que você planejou para ela.', 'color' => 'rose'],
                 ];
             @endphp
 
             @foreach($features as $index => $feature)
-                <div class="group p-8 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 hover:-translate-y-2 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-100 dark:hover:shadow-none hover:border-indigo-200 dark:hover:border-indigo-900">
-                    <div class="w-14 h-14 rounded-2xl mb-6 flex items-center justify-center {{ $colorClasses[$feature['color']] ?? $colorClasses['indigo'] }} group-hover:scale-110 transition-transform duration-300">
+                <div class="group p-8 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 hover:-translate-y-2 transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-100/50 dark:hover:shadow-none hover:border-indigo-200 dark:hover:border-indigo-900 relative overflow-hidden">
+                     <div class="absolute top-0 right-0 p-6 opacity-0 group-hover:opacity-10 transition-opacity">
+                         <x-icon :name="$featureIcons[$index] ?? 'circle'" style="duotone" class="w-24 h-24 {{ $feature['color'] === 'indigo' ? 'text-indigo-600' : 'text-gray-400' }}" />
+                     </div>
+                    <div class="w-14 h-14 rounded-2xl mb-6 flex items-center justify-center {{ $colorClasses[$feature['color']] ?? $colorClasses['indigo'] }} ring-4 ring-opacity-50 group-hover:scale-110 transition-transform duration-300">
                         <x-icon :name="$featureIcons[$index] ?? 'circle'" style="duotone" size="xl" />
                     </div>
                     <h3 class="text-xl font-bold text-slate-950 dark:text-white mb-3">{{ $feature['title'] }}</h3>
-                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
                         {{ $feature['desc'] }}
                     </p>
                 </div>

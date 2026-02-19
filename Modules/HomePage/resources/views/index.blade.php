@@ -4,6 +4,8 @@
     <main>
         <x-HomePage::sections.hero />
         <x-HomePage::sections.benefits />
+        <x-HomePage::sections.social-proof />
+        <x-HomePage::sections.pricing />
         <x-HomePage::sections.cta />
     </main>
 

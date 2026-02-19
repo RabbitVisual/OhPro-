@@ -50,6 +50,10 @@
                         <x-icon name="user-shield" style="duotone" class="w-5 h-5" />
                         Privacidade e Dados
                     </button>
+                    <button @click="tab = 'referrals'" :class="{'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white': tab === 'referrals', 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800': tab !== 'referrals'}" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-colors">
+                        <x-icon name="gift" style="duotone" class="w-5 h-5" />
+                        Indique e Ganhe
+                    </button>
                 </nav>
             </aside>
 
@@ -348,7 +352,62 @@
                                         Excluir Minha Conta
                                     </button>
                                 </form>
+                                </div>
+
+                {{-- Referrals Tab --}}
+                <div x-show="tab === 'referrals'" x-transition class="space-y-6" style="display: none;">
+                    <div>
+                         <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Indique e Ganhe Mês Grátis</h2>
+                         <p class="text-sm text-gray-500 dark:text-gray-400">Convide outros professores e ganhe 1 mês de acesso Pro para cada indicação que assinar.</p>
+                    </div>
+
+                    {{-- Link Section --}}
+                    <div class="rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/20 p-6">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="p-2 bg-indigo-100 dark:bg-indigo-800 rounded-lg text-indigo-600 dark:text-indigo-400">
+                                <x-icon name="link" style="duotone" class="w-6 h-6" />
                             </div>
+                            <div>
+                                <h3 class="text-base font-bold text-indigo-900 dark:text-indigo-300">Seu Link de Indicação</h3>
+                                <p class="text-xs text-indigo-700 dark:text-indigo-400">Compartilhe este link. Quando alguém se cadastrar e assinar o plano Pro, você ganha.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <input type="text" readonly value="{{ $user->referral_link }}" id="referralLink" class="flex-1 bg-white dark:bg-gray-900 border border-indigo-200 dark:border-indigo-700 text-gray-600 dark:text-gray-300 text-sm rounded-lg p-2.5 focus:ring-indigo-500 focus:border-indigo-500 block w-full">
+                            <button onclick="navigator.clipboard.writeText(document.getElementById('referralLink').value); alert('Link copiado!')" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors shadow-md shadow-indigo-500/20 flex items-center gap-2">
+                                <x-icon name="copy" class="w-4 h-4" />
+                                Copiar
+                            </button>
+                        </div>
+
+                        <div class="mt-4 flex gap-3">
+                             <a href="https://wa.me/?text=Olá! Estou usando o Vertex OhPro para planejar minhas aulas e recomendo muito. Cadastre-se com meu link e ganhe benefícios: {{ urlencode($user->referral_link) }}" target="_blank" class="flex-1 py-2 rounded-lg bg-[#25D366] text-white text-center text-sm font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+                                <x-icon name="whatsapp" style="brands" class="w-4 h-4" />
+                                Compartilhar no WhatsApp
+                             </a>
+                        </div>
+                    </div>
+
+                    {{-- Stats Section --}}
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                         <div class="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+                            <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Cliques no Link</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">-</p>
+                             <p class="text-[10px] text-gray-400">Em breve</p>
+                         </div>
+                         <div class="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+                            <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Cadastros</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">{{ $user->referrals()->count() }}</p>
+                         </div>
+                         <div class="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+                            <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Recompensas Ganhas</p>
+                            <p class="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">{{ $user->referrals()->where('status', 'converted')->count() }}</p>
+                            <p class="text-[10px] text-gray-400">Meses grátis</p>
+                         </div>
+                    </div>
+                </div>
+            </div>
                         </div>
                     </div>
                 </div>

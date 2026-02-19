@@ -9,4 +9,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Privacy Routes
     Route::post('/profile/privacy/export', [\Modules\Teacher\Http\Controllers\PrivacyController::class, 'export'])->name('profile.privacy.export');
     Route::delete('/profile/privacy/delete', [\Modules\Teacher\Http\Controllers\PrivacyController::class, 'delete'])->name('profile.privacy.delete');
+
+    // Teacher Stats
+    Route::get('/stats', [\Modules\Teacher\Http\Controllers\TeacherController::class, 'stats'])->name('teacher.stats');
 });

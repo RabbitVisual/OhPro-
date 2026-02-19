@@ -39,6 +39,7 @@ class User extends Authenticatable
         'hourly_rate',
         'notification_preferences',
         'pdf_theme',
+        'referral_code',
     ];
 
     /**
@@ -152,9 +153,23 @@ class User extends Authenticatable
         return $currentCount < $max;
     }
 
-    /** Check if user has a feature by key (from plan limits/features). */
     public function hasFeature(string $feature): bool
     {
         return $this->plan()->hasFeature($feature);
+    }
+
+    public function referrals(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(\App\Models\Referral::class, 'referrer_id');
+    }
+
+    public function getReferralLinkAttribute(): string
+    {
+        if (!$this->referral_code) {
+            // Generate on the fly if missing (lazy generation)
+            app(\App\Services\ReferralService::class)->generateCode($this);
+            $this->refresh();
+        }
+        return route('register', ['ref' => $this->referral_code]);
     }
 }
