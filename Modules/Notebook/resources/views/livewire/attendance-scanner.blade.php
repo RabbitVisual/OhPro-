@@ -55,7 +55,6 @@
 
                     html5QrCode.start({ facingMode: "environment" }, config, (decodedText, decodedResult) => {
                         // Success
-                        console.log(`Scan result: ${decodedText}`, decodedResult);
                         @this.call('processScan', decodedText).then(() => {
                              // Optional: pause or show success state
                              // We are handling it in PHP by updating lastScannedName
@@ -65,7 +64,7 @@
                         // parse error, ignore
                     })
                     .catch(err => {
-                        console.log(`Unable to start scanning, error: ${err}`);
+                        console.error(`Unable to start scanning, error: ${err}`);
                     });
                 }, 200); // Wait for modal animation
             });
@@ -77,7 +76,7 @@
                 audio.onerror = () => {
                     new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg').play();
                 };
-                audio.play().catch(e => console.log('Audio play failed', e));
+                audio.play().catch(e => console.error('Audio play failed', e));
 
                 // Visual feedback is handled by Blade (lastScannedName)
             });
@@ -89,7 +88,7 @@
                         html5QrcodeScanner.clear();
                         html5QrcodeScanner = null;
                     }).catch((err) => {
-                        console.log('Failed to stop scanner', err);
+                        console.error('Failed to stop scanner', err);
                     });
                  }
             });
@@ -100,7 +99,7 @@
                     html5QrcodeScanner.stop().then(() => {
                         html5QrcodeScanner.clear();
                         html5QrcodeScanner = null;
-                    }).catch(err => console.log(err));
+                    }).catch(err => console.error(err));
                 }
             });
         });
