@@ -128,7 +128,14 @@ class User extends Authenticatable
             return $sub->plan;
         }
 
-        return Plan::where('key', 'free')->firstOrFail();
+        return \App\Models\Plan::where('key', 'free')->first() ?? new \App\Models\Plan([
+            'key' => 'free',
+            'name' => 'Plano Gratuito',
+            'features' => [
+                'max_classes' => 1,
+                'max_students' => 50,
+            ],
+        ]);
     }
 
     public function isFree(): bool

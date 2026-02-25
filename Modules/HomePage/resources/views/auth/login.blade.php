@@ -70,15 +70,40 @@
 
                 @if(app()->environment('local'))
                     <!-- Auto-login for Demo Dev Mode -->
-                    <form action="{{ route('login') }}" method="POST" class="mb-4">
-                        @csrf
-                        <input type="hidden" name="email" value="demo@ohpro.com.br">
-                        <input type="hidden" name="password" value="password">
-                        <button type="submit" class="w-full flex items-center justify-center gap-2 py-3 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 dark:hover:bg-emerald-900/50 rounded-2xl font-bold transition-all border border-emerald-200 dark:border-emerald-800">
-                            <x-icon name="bolt" style="duotone" />
-                            Login Rápido (Demo Dev)
-                        </button>
-                    </form>
+                    <div class="mb-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <!-- Admin -->
+                        <form action="{{ route('login') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="email" value="admin@ohpro.com.br">
+                            <input type="hidden" name="password" value="password">
+                            <button type="submit" class="w-full flex items-center justify-center gap-1 py-2 bg-rose-100 hover:bg-rose-200 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400 dark:hover:bg-rose-900/50 rounded-xl font-bold transition-all border border-rose-200 dark:border-rose-800 text-xs">
+                                <x-icon name="shield-check" style="duotone" />
+                                Admin
+                            </button>
+                        </form>
+
+                        <!-- Suporte -->
+                        <form action="{{ route('login') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="email" value="suporte@ohpro.com.br">
+                            <input type="hidden" name="password" value="password">
+                            <button type="submit" class="w-full flex items-center justify-center gap-1 py-2 bg-amber-100 hover:bg-amber-200 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 dark:hover:bg-amber-900/50 rounded-xl font-bold transition-all border border-amber-200 dark:border-amber-800 text-xs">
+                                <x-icon name="life-ring" style="duotone" />
+                                Suporte
+                            </button>
+                        </form>
+
+                        <!-- Professor -->
+                        <form action="{{ route('login') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="email" value="professor@ohpro.com.br">
+                            <input type="hidden" name="password" value="password">
+                            <button type="submit" class="w-full flex items-center justify-center gap-1 py-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 dark:hover:bg-emerald-900/50 rounded-xl font-bold transition-all border border-emerald-200 dark:border-emerald-800 text-xs">
+                                <x-icon name="chalkboard-user" style="duotone" />
+                                Professor
+                            </button>
+                        </form>
+                    </div>
                     <div class="relative flex pb-6 pt-2 items-center">
                         <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
                         <span class="flex-shrink-0 mx-4 text-slate-400 text-sm">Ou acesse com</span>

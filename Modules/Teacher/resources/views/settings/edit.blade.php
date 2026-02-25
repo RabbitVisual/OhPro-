@@ -1,5 +1,5 @@
 <x-layouts.app-sidebar title="Minha Conta">
-    <div class="min-h-screen p-4 md:p-6" x-data="{ tab: new URLSearchParams(window.location.search).get('tab') || 'brand' }">
+    <div x-data="{ tab: new URLSearchParams(window.location.search).get('tab') || 'brand' }">
         <div class="mb-6">
             <a href="{{ route('dashboard') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:underline flex items-center gap-1">
                 <x-icon name="arrow-left" style="duotone" class="fa-sm" />
@@ -147,7 +147,7 @@
                 </div>
 
                 {{-- Notifications Tab --}}
-                <div x-show="tab === 'notifications'" x-transition class="space-y-6" style="display: none;">
+                <div x-show="tab === 'notifications'" x-transition x-cloak class="space-y-6">
                     <div>
                          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Preferências de Notificação</h2>
                          <p class="text-sm text-gray-500 dark:text-gray-400">Escolha como e quando você quer ser notificado.</p>
@@ -192,7 +192,7 @@
                 </div>
 
                 {{-- Subscription Tab --}}
-                <div x-show="tab === 'subscription'" x-transition class="space-y-6" style="display: none;">
+                <div x-show="tab === 'subscription'" x-transition x-cloak class="space-y-6">
                     <div>
                          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Sua Assinatura</h2>
                          <p class="text-sm text-gray-500 dark:text-gray-400">Gerencie seu plano e visualize seu uso.</p>
@@ -221,11 +221,10 @@
                             </p>
 
                              <div class="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700/50">
-                                <a href="{{ route('panel.admin.subscriptions') }}" class="text-indigo-600 dark:text-indigo-400 text-sm font-medium hover:underline flex items-center gap-1">
-                                    Gerenciar Faturas e Pagamentos
+                                <a href="{{ route('plans') }}" class="text-indigo-600 dark:text-indigo-400 text-sm font-medium hover:underline flex items-center gap-1">
+                                    Ver planos e fazer upgrade
                                     <x-icon name="external-link" class="w-3 h-3" />
                                 </a>
-                                {{-- NOTE: If Billing module exists and has own route, point there --}}
                             </div>
                         </div>
                     </div>
@@ -251,7 +250,7 @@
                 </div>
 
                 {{-- Security Tab --}}
-                <div x-show="tab === 'security'" x-transition class="space-y-6" style="display: none;">
+                <div x-show="tab === 'security'" x-transition x-cloak class="space-y-6">
                     <div>
                          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Segurança</h2>
                          <p class="text-sm text-gray-500 dark:text-gray-400">Proteja sua conta com uma senha forte.</p>
@@ -305,10 +304,9 @@
                         </div>
                     </div>
                 </div>
-                </div>
 
                 {{-- Privacy Tab --}}
-                <div x-show="tab === 'privacy'" x-transition class="space-y-6" style="display: none;">
+                <div x-show="tab === 'privacy'" x-transition x-cloak class="space-y-6">
                     <div>
                          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Privacidade e Dados (LGPD)</h2>
                          <p class="text-sm text-gray-500 dark:text-gray-400">Gerencie seus dados e direitos de privacidade.</p>
@@ -352,10 +350,13 @@
                                         Excluir Minha Conta
                                     </button>
                                 </form>
-                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 {{-- Referrals Tab --}}
-                <div x-show="tab === 'referrals'" x-transition class="space-y-6" style="display: none;">
+                <div x-show="tab === 'referrals'" x-transition x-cloak class="space-y-6">
                     <div>
                          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Indique e Ganhe Mês Grátis</h2>
                          <p class="text-sm text-gray-500 dark:text-gray-400">Convide outros professores e ganhe 1 mês de acesso Pro para cada indicação que assinar.</p>
@@ -408,7 +409,6 @@
                     </div>
                 </div>
             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
+    </div>
+</x-layouts.app-sidebar>

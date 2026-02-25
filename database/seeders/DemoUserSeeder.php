@@ -13,27 +13,48 @@ class DemoUserSeeder extends Seeder
      */
     public function run(): void
     {
-        $demoUser = User::updateOrCreate(
-            ['email' => 'demo@ohpro.com.br'],
+        $usersToCreate = [
             [
-                'first_name' => 'Demo',
-                'last_name' => 'User',
-                'username' => 'demo_user',
-                'password' => Hash::make('password'),
-                'status' => 'active',
-                'email_verified_at' => now(),
-                'membership' => 'pro', // assuming a pro membership for demo purposes
-                'cpf' => '00000000000',
-            ]
-        );
+                'email' => 'admin@ohpro.com.br',
+                'first_name' => 'Admin',
+                'username' => 'admin_demo',
+                'role' => 'admin',
+            ],
+            [
+                'email' => 'suporte@ohpro.com.br',
+                'first_name' => 'Suporte',
+                'username' => 'suporte_demo',
+                'role' => 'support',
+            ],
+            [
+                'email' => 'professor@ohpro.com.br',
+                'first_name' => 'Professor',
+                'username' => 'professor_demo',
+                'role' => 'teacher',
+            ],
+        ];
 
-        // Assign multiple roles to the demo user
-        $roles = collect(['admin', 'support', 'teacher'])->filter(function ($role) {
-            return \Spatie\Permission\Models\Role::where('name', $role)->exists();
-        });
+        foreach ($usersToCreate as $idx => $userData) {
+            $cpfPrefix = str_repeat((string)($idx + 1), 11); // 11111111111, 22222222222, 33333333333
+            $demoUser = User::updateOrCreate(
+                ['email' => $userData['email']],
+                [
+                    'first_name' => $userData['first_name'],
+                    'last_name' => 'Demo',
+                    'username' => $userData['username'],
+                    'password' => Hash::make('password'),
+                    'status' => 'active',
+                    'email_verified_at' => now(),
+                    'membership' => 'pro',
+                    'cpf' => $cpfPrefix, // Unique dummy cpf avoiding 00000000000
+                ]
+            );
 
-        $demoUser->syncRoles($roles);
+            if (\Spatie\Permission\Models\Role::where('name', $userData['role'])->exists()) {
+                $demoUser->syncRoles([$userData['role']]);
+            }
+        }
 
-        $this->command->info('Usuário Demo criado com sucesso (demo@ohpro.com.br / password) com os papéis: ' . $roles->implode(', '));
+        $this->command->info('Os 3 Usuários Demo (Admin, Suporte, Professor) foram criados com sucesso.');
     }
 }

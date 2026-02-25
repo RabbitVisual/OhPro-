@@ -10,6 +10,10 @@ use Modules\ClassRecord\Http\Controllers\ShareReportController;
 use Modules\ClassRecord\Http\Controllers\SendReportController;
 
 Route::middleware(['auth', 'verified', 'role:teacher'])->group(function () {
+    // Redirects for sidebar (no dedicated index pages)
+    Route::get('/notebook', fn () => redirect()->route('notebook.rubrics.index'))->name('notebook.index'); // redirect to rubrics
+    Route::get('/diary', fn () => redirect()->route('workspace.index'))->name('diary.index');
+
     // Workspace (multi-school dashboard)
     Route::prefix('workspace')->name('workspace.')->group(function () {
         Route::get('/', [WorkspaceController::class, 'index'])->name('index');
@@ -33,7 +37,7 @@ Route::middleware(['auth', 'verified', 'role:teacher'])->group(function () {
 
     // Notebook (grades, attendance, rubrics)
     Route::prefix('notebook')->name('notebook.')->group(function () {
-        Route::get('/rubrics', [NotebookController::class, 'rubrics'])->name('rubrics.index');
+        Route::get('/rubrics', [NotebookController::class, 'rubrics'])->name('rubrics.index'); // alias: notebook.rubrics.index
         Route::get('/class/{schoolClass}/grades', [NotebookController::class, 'grades'])->name('grades');
         Route::get('/class/{schoolClass}/attendance', [NotebookController::class, 'attendance'])->name('attendance');
         Route::get('/class/{schoolClass}/report-card/pdf', [PdfReportController::class, 'reportCard'])->name('report-card.pdf')->whereNumber('schoolClass')->middleware('pro');

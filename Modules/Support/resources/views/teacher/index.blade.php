@@ -1,5 +1,5 @@
 <x-layouts.app-sidebar :title="$title ?? 'Suporte'">
-    <div class="min-h-screen p-4 md:p-6">
+    <div>
         <livewire:support::ticket-manager />
 
         <div class="mt-8 pt-8 border-t border-gray-100 dark:border-gray-700">

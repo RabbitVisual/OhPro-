@@ -1,4 +1,4 @@
-<div class="min-h-screen p-4 md:p-6" x-data="{
+<div x-data="{
     tourStep: 0,
     tourDone: typeof localStorage !== 'undefined' && localStorage.getItem('onboarding_tour_done'),
     tourSteps: [
@@ -30,21 +30,21 @@
         <div class="mb-6 rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/20 p-4">
             <h3 class="text-sm font-display font-bold text-indigo-900 dark:text-indigo-100 mb-2">Progresso de Configuração</h3>
             <div class="flex flex-wrap gap-4 items-center mb-2">
-                <span class="inline-flex items-center gap-2 text-sm {{ $this->onboardingStep1 ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400' }}">
-                    @if($this->onboardingStep1)<x-icon name="check-circle" style="solid" class="fa-sm" />@else<span class="w-5 h-5 rounded-full border-2 border-gray-300 dark:border-gray-600 inline-flex items-center justify-center text-xs">1</span>@endif
+                <span class="inline-flex items-center gap-2 text-sm {{ $this->onboardingStep1 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400' }}">
+                    @if($this->onboardingStep1)<x-icon name="check-circle" style="solid" class="fa-sm" />@else<span class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 inline-flex items-center justify-center text-xs">1</span>@endif
                     Criar escola
                 </span>
-                <span class="inline-flex items-center gap-2 text-sm {{ $this->onboardingStep2 ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400' }}">
-                    @if($this->onboardingStep2)<x-icon name="check-circle" style="solid" class="fa-sm" />@else<span class="w-5 h-5 rounded-full border-2 border-gray-300 dark:border-gray-600 inline-flex items-center justify-center text-xs">2</span>@endif
+                <span class="inline-flex items-center gap-2 text-sm {{ $this->onboardingStep2 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400' }}">
+                    @if($this->onboardingStep2)<x-icon name="check-circle" style="solid" class="fa-sm" />@else<span class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 inline-flex items-center justify-center text-xs">2</span>@endif
                     Importar alunos
                 </span>
-                <span class="inline-flex items-center gap-2 text-sm {{ $this->onboardingStep3 ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400' }}">
-                    @if($this->onboardingStep3)<x-icon name="check-circle" style="solid" class="fa-sm" />@else<span class="w-5 h-5 rounded-full border-2 border-gray-300 dark:border-gray-600 inline-flex items-center justify-center text-xs">3</span>@endif
+                <span class="inline-flex items-center gap-2 text-sm {{ $this->onboardingStep3 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400' }}">
+                    @if($this->onboardingStep3)<x-icon name="check-circle" style="solid" class="fa-sm" />@else<span class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 inline-flex items-center justify-center text-xs">3</span>@endif
                     Criar plano de aula
                 </span>
             </div>
             @php $pct = ($this->onboardingStep1 ? 33 : 0) + ($this->onboardingStep2 ? 33 : 0) + ($this->onboardingStep3 ? 34 : 0); @endphp
-            <div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+            <div class="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
                 <div class="h-full bg-indigo-600 dark:bg-indigo-500 rounded-full transition-all duration-300" style="width: {{ $pct }}%"></div>
             </div>
         </div>
@@ -68,8 +68,8 @@
     {{-- School selector with color feedback --}}
     <div class="mb-6">
         <div class="flex items-center justify-between mb-3">
-            <h2 class="text-lg font-display font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                <x-icon name="school" style="duotone" />
+            <h2 class="text-lg font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <x-icon name="school" style="duotone" class="text-indigo-600 dark:text-indigo-400" />
                 Minhas escolas
             </h2>
             <button
@@ -90,10 +90,10 @@
                 <button
                     type="button"
                     wire:click="switchSchool({{ $school->id }})"
-                    class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border-2 text-sm font-medium transition-all
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border-2 text-sm font-medium transition-all
                         {{ $isSelected
-                            ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white'
-                            : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600' }}"
+                            ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700'
+                            : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-600' }}"
                     style="{{ $isSelected ? "border-left-color: {$schoolColor}; border-left-width: 4px;" : '' }}"
                 >
                     <span class="w-2 h-2 rounded-full shrink-0" style="background-color: {{ $schoolColor }}"></span>
@@ -113,8 +113,8 @@
 
     {{-- Classes grid --}}
     <div class="mb-6 flex items-center justify-between flex-wrap gap-2">
-        <h2 class="text-lg font-display font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <x-icon name="chalkboard-user" style="duotone" />
+        <h2 class="text-lg font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <x-icon name="chalkboard-user" style="duotone" class="text-indigo-600 dark:text-indigo-400" />
             Turmas{{ $this->currentSchool ? ' - ' . $this->currentSchool->name : '' }}
         </h2>
         <div class="flex gap-2">
@@ -129,14 +129,14 @@
             @if(auth()->user()->isPro())
             <a
                 href="{{ route('workspace.import') }}"
-                class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700"
+                class="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
             >
                 <x-icon name="file-import" style="duotone" class="fa-sm" />
                 Importar alunos
             </a>
             <a
                 href="{{ route('google.redirect') }}"
-                class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700"
+                class="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
             >
                 <x-icon name="google" :brand="true" class="fa-sm text-red-500" />
                 Sincronizar Google
