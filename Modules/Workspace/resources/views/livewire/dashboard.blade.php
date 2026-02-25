@@ -146,21 +146,21 @@
             @endif
             <a
                 href="{{ route('planning.index') }}"
-                class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700"
+                class="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
             >
                 <x-icon name="book-open-reader" style="duotone" class="fa-sm" />
                 Planos de aula
             </a>
             <a
                 href="{{ route('library.index') }}"
-                class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700"
+                class="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
             >
                 <x-icon name="folder-open" style="duotone" class="fa-sm" />
                 Biblioteca
             </a>
             <a
                 href="{{ route('profile.edit') }}"
-                class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700"
+                class="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
             >
                 <x-icon name="id-card" style="duotone" class="fa-sm" />
                 Marca pessoal
@@ -169,8 +169,8 @@
     </div>
 
     @if($this->classes->isEmpty())
-        <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-8 text-center text-gray-500 dark:text-gray-400">
-            <x-icon name="chalkboard-user" style="duotone" class="fa-3x mx-auto mb-3 opacity-50" />
+        <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-8 text-center text-slate-500 dark:text-slate-400 shadow-sm">
+            <x-icon name="chalkboard-user" style="duotone" class="w-12 h-12 mx-auto mb-3 text-slate-400 dark:text-slate-500" />
             <p class="font-medium">Nenhuma turma nesta escola.</p>
             <p class="text-sm mt-1">Adicione uma turma para começar.</p>
         </div>
@@ -179,10 +179,10 @@
             @foreach($this->classes as $class)
                 <a
                     href="{{ route('workspace.show', $class) }}"
-                    class="block rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 hover:border-indigo-300 dark:hover:border-indigo-600 transition-colors group relative"
+                    class="block rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-md transition-all group relative"
                 >
                     <div class="flex items-start justify-between">
-                        <h3 class="font-display font-semibold text-gray-900 dark:text-white">{{ $class->name }}</h3>
+                        <h3 class="font-display font-semibold text-slate-900 dark:text-white">{{ $class->name }}</h3>
                         @if(!$class->isOwner(auth()->user()))
                             <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200" title="Turma Compartilhada">
                                 <x-icon name="users-gear" style="duotone" class="w-3 h-3 mr-1" />
@@ -193,7 +193,7 @@
                             <button
                                 type="button"
                                 wire:click.stop="$dispatch('open-edit-class', { classId: {{ $class->id }} })"
-                                class="absolute top-2 right-2 p-1.5 rounded-full bg-white dark:bg-gray-700 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                                class="absolute top-2 right-2 p-1.5 rounded-full bg-white dark:bg-slate-700 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
                                 title="Editar Turma"
                             >
                                 <x-icon name="pen-to-square" class="w-3.5 h-3.5" />
@@ -201,7 +201,7 @@
                         @endif
                     </div>
                     @if($class->subject || $class->grade_level)
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
                             {{ implode(' · ', array_filter([$class->grade_level, $class->subject])) }}
                         </p>
                     @endif
@@ -216,14 +216,14 @@
              class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60"
              x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
             <div x-show="!tourDone && tourStep < tourSteps.length" x-transition
-                 class="w-full max-w-md rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl p-6">
-                <h3 class="text-lg font-display font-bold text-gray-900 dark:text-white" x-text="tourSteps[tourStep]?.title"></h3>
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400" x-text="tourSteps[tourStep]?.body"></p>
+                 class="w-full max-w-md rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-xl p-6">
+                <h3 class="text-lg font-display font-bold text-slate-900 dark:text-white" x-text="tourSteps[tourStep]?.title"></h3>
+                <p class="mt-2 text-sm text-slate-600 dark:text-slate-400" x-text="tourSteps[tourStep]?.body"></p>
                 <div class="mt-6 flex justify-between items-center">
-                    <button type="button" @click="closeTour()" class="text-sm text-gray-500 dark:text-gray-400 hover:underline">Pular</button>
+                    <button type="button" @click="closeTour()" class="text-sm text-slate-500 dark:text-slate-400 hover:underline">Pular</button>
                     <button type="button" @click="nextTour()" class="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700" x-text="tourSteps[tourStep]?.cta"></button>
                 </div>
-                <p class="mt-2 text-xs text-gray-400 dark:text-gray-500" x-text="(tourStep + 1) + ' de ' + tourSteps.length"></p>
+                <p class="mt-2 text-xs text-slate-400 dark:text-slate-500" x-text="(tourStep + 1) + ' de ' + tourSteps.length"></p>
             </div>
         </div>
     </template>
