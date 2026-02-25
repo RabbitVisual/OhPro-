@@ -6,13 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, HasApiTokens, HasRoles, Notifiable, SoftDeletes;
+    use HasFactory, HasRoles, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -183,7 +182,7 @@ class User extends Authenticatable
 
     public function getIsCommunityChoiceAttribute(): bool
     {
-        $avg = \Modules\Marketplace\app\Models\MarketplaceReview::whereHas('item', function($q) {
+        $avg = \Modules\Marketplace\app\Models\MarketplaceReview::whereHas('item', function ($q) {
             $q->where('user_id', $this->id);
         })->avg('rating');
 

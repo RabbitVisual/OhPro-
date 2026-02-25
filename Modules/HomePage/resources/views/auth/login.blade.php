@@ -68,6 +68,24 @@
                     </button>
                 </div>
 
+                @if(app()->environment('local'))
+                    <!-- Auto-login for Demo Dev Mode -->
+                    <form action="{{ route('login') }}" method="POST" class="mb-4">
+                        @csrf
+                        <input type="hidden" name="email" value="demo@ohpro.com.br">
+                        <input type="hidden" name="password" value="password">
+                        <button type="submit" class="w-full flex items-center justify-center gap-2 py-3 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 dark:hover:bg-emerald-900/50 rounded-2xl font-bold transition-all border border-emerald-200 dark:border-emerald-800">
+                            <x-icon name="bolt" style="duotone" />
+                            Login Rápido (Demo Dev)
+                        </button>
+                    </form>
+                    <div class="relative flex pb-6 pt-2 items-center">
+                        <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+                        <span class="flex-shrink-0 mx-4 text-slate-400 text-sm">Ou acesse com</span>
+                        <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+                    </div>
+                @endif
+
                 <form action="{{ route('login') }}" method="POST" class="space-y-6">
                     @csrf
 
