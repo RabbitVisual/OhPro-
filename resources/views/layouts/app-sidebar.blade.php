@@ -63,6 +63,11 @@
                             <x-nav-link route="notebook.index" icon="book" label="Caderno" active="notebook.*" />
                             <x-nav-link route="diary.index" icon="pen-to-square" label="Diário" active="diary.*" />
                             <x-nav-link route="library.index" icon="books" label="Biblioteca" active="library.*" />
+                            <x-nav-link route="billing.index" icon="credit-card" label="Minha assinatura" active="billing.*" />
+                            <x-nav-link route="notifications.index" icon="bell" label="Notificações" active="notifications.*" />
+                            <x-nav-link route="marketplace.index" icon="store" label="Marketplace" active="marketplace.*" />
+                            <x-nav-link route="classrecord.index" icon="clipboard-list" label="Registros de turma" active="classrecord.*" />
+                            <x-nav-link route="finance.index" icon="money-bill-transfer" label="Finanças" active="finance.*" />
                         @endrole
                         @role('manager')
                             <p class="px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-4">Gestão</p>
@@ -79,7 +84,7 @@
                         @endrole
                         @role('teacher')
                             <p class="px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-4">Ajuda</p>
-                            <x-nav-link route="support.index" icon="life-ring" label="Suporte" active="support.*" />
+                            <x-nav-link route="supports.index" icon="life-ring" label="Suporte" active="supports.*" />
                         @endrole
                         <div class="mt-auto pt-4 border-t border-slate-200 dark:border-slate-800">
                             <x-nav-link route="profile.edit" icon="user-circle" label="Minha Conta" active="profile.*" />

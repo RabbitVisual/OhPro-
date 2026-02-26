@@ -10,8 +10,8 @@ use Modules\ClassRecord\Http\Controllers\ShareReportController;
 use Modules\ClassRecord\Http\Controllers\SendReportController;
 
 Route::middleware(['auth', 'verified', 'role:teacher'])->group(function () {
-    // Redirects for sidebar (no dedicated index pages)
-    Route::get('/notebook', fn () => redirect()->route('notebook.rubrics.index'))->name('notebook.index'); // redirect to rubrics
+    // Caderno: full index (Rubricas, Notas, Chamada)
+    Route::get('/notebook', [NotebookController::class, 'index'])->name('notebook.index');
 
     // Diary index (list recent diaries; launch new from Workspace)
     Route::get('/diary', [DiaryController::class, 'index'])->name('diary.index');

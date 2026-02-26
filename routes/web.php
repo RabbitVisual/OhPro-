@@ -46,7 +46,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         $user = auth()->user();
         if ($user->hasRole('teacher')) {
-            return redirect()->route('workspace.index');
+            return redirect()->route('teacher.index');
         }
         if ($user->hasRole('admin')) {
             return redirect()->route('panel.admin');

@@ -29,6 +29,11 @@
                 <p class="mt-1 text-slate-500 dark:text-slate-400">
                     Aqui está o que está acontecendo nas suas turmas hoje.
                 </p>
+                <a href="{{ route('billing.index') }}" class="mt-2 inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                    <x-icon name="credit-card" style="duotone" class="w-4 h-4" />
+                    Plano atual: {{ auth()->user()->plan()->name }}
+                    <span class="text-xs">— Gerir assinatura</span>
+                </a>
             </div>
             <div class="flex items-center gap-3">
                 <button @click="tour = true" class="p-2 text-slate-400 hover:text-indigo-600 transition-colors" title="Ver Tour">
@@ -321,7 +326,7 @@
                         @endforelse
                     </div>
 
-                    <a href="#" class="mt-6 block text-center py-3 border border-slate-100 dark:border-slate-800 rounded-2xl text-xs font-bold text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+                    <a href="{{ route('notifications.index') }}" class="mt-6 block text-center py-3 border border-slate-100 dark:border-slate-800 rounded-2xl text-xs font-bold text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
                         Ver histórico completo
                     </a>
                 </div>
