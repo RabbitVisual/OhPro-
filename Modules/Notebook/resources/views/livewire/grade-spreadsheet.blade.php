@@ -1,4 +1,4 @@
-<div class="p-4 md:p-6" x-data="{
+<div class="w-full p-4 md:p-6" x-data="{
     queueKey: 'gradeQueue_{{ $schoolClassId }}_{{ $cycle }}',
     shareModalOpen: false,
     sharePhone: '',

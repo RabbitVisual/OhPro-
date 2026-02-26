@@ -1,4 +1,4 @@
-<div>
+<div class="w-full">
     {{-- Header with Action --}}
     <div class="flex items-center justify-between mb-6">
         <div>

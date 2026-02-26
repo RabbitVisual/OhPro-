@@ -9,24 +9,26 @@
 namespace Modules\Core\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class CoreController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * Redireciona para o dashboard (área em desenvolvimento).
      */
-    public function index()
+    public function index(): RedirectResponse
     {
-        return view('core::index');
+        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): RedirectResponse
     {
-        return view('core::create');
+        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
     }
 
     /**
@@ -37,17 +39,17 @@ class CoreController extends Controller
     /**
      * Show the specified resource.
      */
-    public function show($id)
+    public function show($id): RedirectResponse
     {
-        return view('core::show');
+        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit($id): RedirectResponse
     {
-        return view('core::edit');
+        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
     }
 
     /**

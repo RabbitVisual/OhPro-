@@ -1,3 +1,4 @@
+<div class="w-full">
     <h1 class="text-xl font-display font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
         <x-icon name="user-check" style="duotone" />
         Chamada rápida

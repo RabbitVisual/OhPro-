@@ -9,24 +9,26 @@
 namespace Modules\Marketplace\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class MarketplaceController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * Redireciona para o dashboard (área em desenvolvimento).
      */
-    public function index()
+    public function index(): RedirectResponse
     {
-        return view('marketplace::index');
+        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): RedirectResponse
     {
-        return view('marketplace::create');
+        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
     }
 
     /**
@@ -37,17 +39,17 @@ class MarketplaceController extends Controller
     /**
      * Show the specified resource.
      */
-    public function show($id)
+    public function show($id): RedirectResponse
     {
-        return view('marketplace::show');
+        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit($id): RedirectResponse
     {
-        return view('marketplace::edit');
+        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
     }
 
     /**

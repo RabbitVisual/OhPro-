@@ -1,4 +1,4 @@
-<div class="max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+<div class="w-full max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
     <div class="mb-6">
         <h2 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
             <x-icon name="google" :brand="true" class="text-red-500" />

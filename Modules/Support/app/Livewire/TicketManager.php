@@ -5,7 +5,7 @@ namespace Modules\Support\Livewire;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Modules\Support\App\Models\Ticket;
+use Modules\Support\Models\Ticket;
 
 class TicketManager extends Component
 {

@@ -1,4 +1,4 @@
-<div>
+<div class="w-full">
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h1 class="text-xl font-display font-bold text-gray-900 dark:text-white flex items-center gap-2">
             <x-icon name="table-cells" style="duotone" />

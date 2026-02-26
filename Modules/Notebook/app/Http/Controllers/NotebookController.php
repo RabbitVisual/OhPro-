@@ -10,6 +10,7 @@ namespace Modules\Notebook\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\SchoolClass;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class NotebookController extends Controller
@@ -46,18 +47,19 @@ class NotebookController extends Controller
 
     /**
      * Display a listing of the resource.
+     * Redireciona para o dashboard (use o menu Caderno para rubricas, notas e chamada).
      */
-    public function index()
+    public function index(): RedirectResponse
     {
-        return view('notebook::index');
+        return redirect()->route('dashboard')->with('info', __('Use o menu Caderno para acessar rubricas, notas e chamada.'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): RedirectResponse
     {
-        return view('notebook::create');
+        return redirect()->route('dashboard')->with('info', __('Use o menu Caderno para acessar rubricas, notas e chamada.'));
     }
 
     /**
@@ -68,17 +70,17 @@ class NotebookController extends Controller
     /**
      * Show the specified resource.
      */
-    public function show($id)
+    public function show($id): RedirectResponse
     {
-        return view('notebook::show');
+        return redirect()->route('dashboard')->with('info', __('Use o menu Caderno para acessar rubricas, notas e chamada.'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit($id): RedirectResponse
     {
-        return view('notebook::edit');
+        return redirect()->route('dashboard')->with('info', __('Use o menu Caderno para acessar rubricas, notas e chamada.'));
     }
 
     /**

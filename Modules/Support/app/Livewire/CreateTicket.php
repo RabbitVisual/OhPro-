@@ -3,7 +3,7 @@
 namespace Modules\Support\Livewire;
 
 use Livewire\Component;
-use Modules\Support\App\Models\Ticket;
+use Modules\Support\Models\Ticket;
 use Illuminate\Support\Facades\Auth;
 
 class CreateTicket extends Component

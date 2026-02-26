@@ -32,8 +32,9 @@
 
     <!-- Fonts & Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
-<body class="font-sans text-gray-900 bg-background dark:bg-background antialiased">
+<body class="font-sans text-gray-900 bg-background dark:bg-background antialiased w-full min-w-0 overflow-x-hidden">
     <x-offline-indicator />
     <x-loading-overlay />
     <x-toast-container />
@@ -41,5 +42,6 @@
     <!-- Main Content -->
     {{ $slot }}
 
+    @livewireScripts
 </body>
 </html>

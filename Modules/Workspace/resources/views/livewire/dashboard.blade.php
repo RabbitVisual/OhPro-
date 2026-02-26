@@ -1,4 +1,4 @@
-<div x-data="{
+<div class="w-full" x-data="{
     tourStep: 0,
     tourDone: typeof localStorage !== 'undefined' && localStorage.getItem('onboarding_tour_done'),
     tourSteps: [
@@ -26,8 +26,18 @@
         this.tourStep = 0;
     }
 }" x-init="if (!tourDone && typeof localStorage !== 'undefined' && !localStorage.getItem('onboarding_tour_done')) { $nextTick(() => { tourStep = 0; tourDone = false; }); }">
+    {{-- Page header --}}
+    <header class="mb-8">
+        <h1 class="text-2xl md:text-3xl font-display font-bold text-slate-900 dark:text-white tracking-tight">
+            Workspace
+        </h1>
+        <p class="mt-1 text-slate-500 dark:text-slate-400">
+            Suas escolas e turmas em um só lugar. Selecione uma escola para ver as turmas.
+        </p>
+    </header>
+
     @if(!$this->onboardingComplete)
-        <div class="mb-6 rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/20 p-4">
+        <div class="mb-8 rounded-2xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-900/20 p-5 shadow-sm">
             <h3 class="text-sm font-display font-bold text-indigo-900 dark:text-indigo-100 mb-2">Progresso de Configuração</h3>
             <div class="flex flex-wrap gap-4 items-center mb-2">
                 <span class="inline-flex items-center gap-2 text-sm {{ $this->onboardingStep1 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400' }}">
@@ -50,23 +60,21 @@
         </div>
     @endif
     @if($this->atPlanLimit)
-        <div class="mb-6 p-4 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 flex flex-wrap items-center justify-between gap-3">
+        <div class="mb-8 p-4 rounded-2xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 flex flex-wrap items-center justify-between gap-3 shadow-sm">
             <p class="text-amber-800 dark:text-amber-200 text-sm font-medium">Você atingiu o limite de turmas do plano Gratuito. Faça upgrade para criar mais turmas.</p>
             <a href="{{ route('plans') }}" class="shrink-0 px-4 py-2 rounded-lg bg-amber-600 text-white text-sm font-medium hover:bg-amber-700">Ver planos</a>
         </div>
     @endif
-    {{-- Financial overview --}}
-    <livewire:workspace.financial-overview-widget />
-    {{-- At-risk students widget --}}
-    <livewire:classrecord.at-risk-widget />
-    {{-- Next class widget --}}
-    <livewire:workspace.next-class-widget />
-
-    {{-- Weekly agenda (Mon–Fri) --}}
-    <livewire:workspace.weekly-agenda />
+    {{-- Widgets row --}}
+    <section class="space-y-6 mb-8" aria-label="Resumo">
+        <livewire:workspace.financial-overview-widget />
+        <livewire:classrecord.at-risk-widget />
+        <livewire:workspace.next-class-widget />
+        <livewire:workspace.weekly-agenda />
+    </section>
 
     {{-- School selector with color feedback --}}
-    <div class="mb-6">
+    <div class="mb-8">
         <div class="flex items-center justify-between mb-3">
             <h2 class="text-lg font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <x-icon name="school" style="duotone" class="text-indigo-600 dark:text-indigo-400" />
@@ -106,7 +114,7 @@
     {{-- Accent bar using current school color --}}
     @if($this->currentSchool)
         <div
-            class="h-1 rounded-full mb-6"
+            class="h-1 rounded-full mb-8"
             style="background-color: {{ $this->currentSchool->color ?: '#6366f1' }}"
         ></div>
     @endif

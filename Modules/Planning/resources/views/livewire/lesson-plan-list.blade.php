@@ -1,4 +1,4 @@
-<div class="p-4 md:p-6">
+<div class="w-full p-4 md:p-6">
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h1 class="text-xl font-display font-bold text-gray-900 dark:text-white flex items-center gap-2">
             <x-icon name="book-open-reader" style="duotone" />

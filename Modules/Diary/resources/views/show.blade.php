@@ -1,3 +1,3 @@
-<x-layouts.app :title="'Registro de aula - ' . config('app.name')">
+<x-layouts.app-sidebar :title="'Registro de aula — Oh Pro!'">
     <livewire:diary.class-diary-form :diary="$diary" />
-</x-layouts.app>
+</x-layouts.app-sidebar>

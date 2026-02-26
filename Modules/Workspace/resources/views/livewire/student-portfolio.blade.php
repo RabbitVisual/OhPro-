@@ -1,4 +1,4 @@
-<div>
+<div class="w-full">
     <h1 class="text-2xl font-display font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
         <x-icon name="timeline" style="duotone" />
         Portfólio — {{ $this->student->name }}

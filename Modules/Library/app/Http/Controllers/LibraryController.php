@@ -30,8 +30,8 @@ class LibraryController extends Controller
 
         $files = $query->latest()->paginate(20);
 
-        $lessonPlans = LessonPlan::where('user_id', $user->id())->orderBy('title')->get(['id', 'title']);
-        $schoolClasses = SchoolClass::where('user_id', $user->id())->orderBy('name')->get(['id', 'name']);
+        $lessonPlans = LessonPlan::where('user_id', $user->id)->orderBy('title')->get(['id', 'title']);
+        $schoolClasses = SchoolClass::where('user_id', $user->id)->orderBy('name')->get(['id', 'name']);
 
         return view('library::index', [
             'files' => $files,

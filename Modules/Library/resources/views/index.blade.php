@@ -1,5 +1,5 @@
 <x-library::layouts.master>
-    <div class="min-h-screen p-4 md:p-6">
+    <div class="py-2">
         <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
             <div class="flex items-center gap-2">
                 <a href="{{ route('dashboard') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:underline flex items-center gap-1">

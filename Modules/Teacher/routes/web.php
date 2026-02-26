@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Teacher\Http\Controllers\TeacherController;
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('teacher')->group(function () {
     // Teacher Dashboard
     Route::get('/dashboard', [TeacherController::class, 'index'])->name('teacher.index');
     Route::get('/stats', [TeacherController::class, 'stats'])->name('teacher.stats');

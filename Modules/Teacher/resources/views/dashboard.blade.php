@@ -1,5 +1,5 @@
-<x-layouts.app-sidebar title="Dashboard — Oh Pro!">
-    <div class="max-w-7xl mx-auto p-6 space-y-6"
+<x-teacher::layouts.master title="Dashboard — Oh Pro!">
+    <div class="w-full space-y-6"
          x-data="{
              tour: false,
              step: 1,
@@ -20,6 +20,16 @@
              }
          }"
     >
+        {{-- Page header --}}
+        <header class="mb-8">
+            <h1 class="text-2xl md:text-3xl font-display font-bold text-slate-900 dark:text-white tracking-tight">
+                Dashboard
+            </h1>
+            <p class="mt-1 text-slate-500 dark:text-slate-400">
+                Visão geral das suas turmas, planos e próxima aula.
+            </p>
+        </header>
+
         {{-- Onboarding Tour Modal --}}
         <div x-show="tour" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" style="display: none;">
             <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl max-w-lg w-full p-8 text-center relative overflow-hidden">
@@ -153,7 +163,7 @@
                 </div>
 
                 <div class="space-y-3">
-                    @forelse($recentNotifications ?? [] as $notification)
+                    @forelse(($recentNotifications ?? []) as $notification)
                         <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 flex gap-3 {{ is_null($notification->read_at) ? 'border-l-2 border-indigo-500' : '' }}">
                             <div class="mt-1 w-2 h-2 rounded-full shrink-0 {{ is_null($notification->read_at) ? 'bg-indigo-500' : 'bg-slate-300 dark:bg-slate-600' }}"></div>
                             <div>
@@ -180,4 +190,4 @@
             </div>
         </div>
     </div>
-</x-layouts.app-sidebar>
+</x-teacher::layouts.master>

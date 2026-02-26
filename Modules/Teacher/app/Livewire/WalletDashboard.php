@@ -5,8 +5,8 @@ namespace Modules\Teacher\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
-use Modules\Finance\app\Models\Wallet;
-use Modules\Finance\app\Models\Transaction;
+use Modules\Finance\Models\Wallet;
+use Modules\Finance\Models\Transaction;
 
 class WalletDashboard extends Component
 {
@@ -57,6 +57,6 @@ class WalletDashboard extends Component
         return view('teacher::livewire.wallet-dashboard', [
             'wallet' => $this->wallet,
             'transactions' => $transactions
-        ]);
+        ])->layout('layouts.app-sidebar', ['title' => 'Carteira — Oh Pro!']);
     }
 }

@@ -29,11 +29,17 @@ class DiaryController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display diary index: recent class diaries and link to Workspace to start new ones.
      */
     public function index()
     {
-        return view('diary::index');
+        $user = auth()->user();
+        $recentDiaries = ClassDiary::where('user_id', $user->id)
+            ->with(['schoolClass:id,name,school_id', 'schoolClass.school:id,name'])
+            ->latest('scheduled_at')
+            ->take(15)
+            ->get();
+        return view('diary::index', ['recentDiaries' => $recentDiaries]);
     }
 
     /**
@@ -66,7 +72,7 @@ class DiaryController extends Controller
      */
     public function edit($id)
     {
-        return view('diary::edit');
+        return view('diary::edit', ['id' => $id]);
     }
 
     /**

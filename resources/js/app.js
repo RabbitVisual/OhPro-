@@ -1,6 +1,7 @@
 import './bootstrap';
 import './theme';
 import './masks';
+import 'flowbite';
 
 import Sortable from 'sortablejs';
 window.Sortable = Sortable;

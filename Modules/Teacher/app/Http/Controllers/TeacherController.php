@@ -36,12 +36,8 @@ class TeacherController extends Controller
             }])
             ->first();
 
-        // Recent notifications (global or specific to teacher)
-        $recentNotifications = \Modules\Notifications\app\Models\Notification::where('user_id', $user->id)
-            ->orWhereNull('user_id')
-            ->latest()
-            ->take(5)
-            ->get();
+        // Recent notifications (Laravel database notifications for this user)
+        $recentNotifications = $user->notifications()->latest()->take(5)->get();
 
         return view('teacher::dashboard', compact(
             'activeClassesCount',

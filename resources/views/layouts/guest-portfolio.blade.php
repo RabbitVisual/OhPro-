@@ -8,6 +8,7 @@
 
     <!-- Fonts & Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
 <body class="font-sans text-gray-900 bg-gray-50 dark:bg-gray-900 antialiased">
 
@@ -32,5 +33,6 @@
         &copy; {{ date('Y') }} Vertex Oh Pro. Todos os direitos reservados.
     </footer>
 
+    @livewireScripts
 </body>
 </html>

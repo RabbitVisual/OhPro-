@@ -1,6 +1,6 @@
 <x-layouts.app-sidebar :title="$title ?? 'Suporte'">
     <div class="max-w-4xl">
-        <livewire:support::ticket-manager />
+        <livewire:support.ticket-manager />
 
         <div class="mt-8 pt-8 border-t border-slate-200 dark:border-slate-800">
             <h3 class="text-xl font-display font-bold text-slate-900 dark:text-white mb-6">Perguntas Frequentes (FAQ)</h3>

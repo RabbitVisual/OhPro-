@@ -1,3 +1,3 @@
-<x-layouts.app :title="'Chamada - ' . ($schoolClass->name ?? config('app.name'))">
+<x-layouts.app-sidebar :title="'Chamada — ' . ($schoolClass->name ?? 'Oh Pro!')">
     <livewire:notebook.quick-attendance :schoolClassId="$schoolClass->id" :date="request()->get('date', now()->format('Y-m-d'))" />
-</x-layouts.app>
+</x-layouts.app-sidebar>

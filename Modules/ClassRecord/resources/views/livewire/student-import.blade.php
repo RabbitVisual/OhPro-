@@ -1,4 +1,4 @@
-<div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
+<div class="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
     <h2 class="text-lg font-display font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
         <x-icon name="file-import" style="duotone" />
         Importar alunos

@@ -39,7 +39,7 @@ class SupportController extends Controller
      */
     public function show($id)
     {
-        return view('support::show');
+        return view('support::show', ['id' => $id]);
     }
 
     /**
@@ -47,7 +47,7 @@ class SupportController extends Controller
      */
     public function edit($id)
     {
-        return view('support::edit');
+        return view('support::edit', ['id' => $id]);
     }
 
     /**

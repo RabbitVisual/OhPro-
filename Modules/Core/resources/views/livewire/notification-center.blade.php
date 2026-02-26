@@ -83,7 +83,6 @@
              <span class="text-xs text-gray-400">Últimas 10 notificações</span>
         </div>
     </div>
-    </div>
 
     <script>
         document.addEventListener('livewire:initialized', () => {

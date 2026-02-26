@@ -2,8 +2,8 @@
 
 namespace Modules\Teacher\Services;
 
+use App\Models\ClassDiary;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
 
 class TeacherStatsService
 {
@@ -18,10 +18,8 @@ class TeacherStatsService
         // 2. Total Lesson Plans Created
         $totalPlans = $user->lessonPlans()->count();
 
-        // 3. Classes Taught (Signatures/Diaries)
-        // Assuming 'class_records' or similar table, but for now we might count plans used or just plans
-        // If we have a 'ClassRecord' model:
-        $classesTaught = \Modules\ClassRecord\Models\ClassRecord::where('user_id', $user->id)->count();
+        // 3. Classes Taught (diary entries / aulas dadas by this teacher)
+        $classesTaught = ClassDiary::where('user_id', $user->id)->where('is_finalized', true)->count();
 
         // 4. BNCC Skills Used (Top 5)
         // This assumes we store BNCC codes in a JSON column or relationship in LessonPlan

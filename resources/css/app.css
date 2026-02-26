@@ -6,6 +6,7 @@
 @import '../fw-pro/css/regular.css';
 @import '../fw-pro/css/light.css';
 @import 'tailwindcss';
+@import 'flowbite/src/themes/default';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -13,9 +14,11 @@
 @source '../**/*.js';
 @source '../../Modules/**/*.blade.php';
 @source '../../Modules/**/*.js';
+@source '../../node_modules/flowbite';
 
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+@plugin 'flowbite/plugin';
 
 /* Define que o dark mode é ativado pela classe .dark no <html> */
 @custom-variant dark (&:where(.dark, .dark *));

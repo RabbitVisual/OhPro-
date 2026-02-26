@@ -58,5 +58,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::get('/api/quick-search', \Modules\Core\Http\Controllers\QuickSearchController::class)->name('api.quick-search');
-    Route::resource('homepages', HomePageController::class)->names('homepage');
 });

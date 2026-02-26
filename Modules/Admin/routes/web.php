@@ -1,8 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Admin\Http\Controllers\AdminController;
 
+/*
+| O painel administrativo está em routes/admin.php (prefixo /admin, nome panel.admin.*).
+| Este ficheiro não expõe resource admins para evitar views duplicadas e rotas órfãs.
+*/
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::resource('admins', AdminController::class)->names('admin');
+    // Rotas específicas do módulo Admin, se necessário no futuro
 });
