@@ -1,13 +1,51 @@
-<x-classrecord::layouts.master>
-    <div class="p-6 max-w-2xl mx-auto">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Detalhe do registro</h1>
-        <p class="text-gray-600 dark:text-gray-400 mb-6">Exibição do item. Passe o modelo do controller quando o resource estiver registrado e implementado.</p>
-        <div class="rounded-lg border border-gray-200 dark:border-gray-700 p-4 bg-gray-50 dark:bg-gray-800/50">
-            <p class="text-sm text-gray-500 dark:text-gray-400">ID na URL: {{ $id ?? 'N/A' }}</p>
-        </div>
-        <div class="mt-6 flex gap-3">
-            <a href="{{ url()->previous() }}" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Editar</a>
-            <a href="{{ url()->previous() }}" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600">Voltar</a>
+<x-layouts.app-sidebar title="{{ $schoolClass->name }} — Registros">
+    <div class="max-w-2xl mx-auto">
+        <a href="{{ route('classrecord.index') }}" class="text-sm text-slate-600 dark:text-slate-400 hover:underline flex items-center gap-1 mb-6 w-fit">
+            <x-icon name="arrow-left" style="duotone" class="fa-sm" />
+            Voltar aos registros
+        </a>
+
+        <header class="mb-8">
+            <h1 class="text-2xl font-display font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <x-icon name="chalkboard-user" style="duotone" class="text-indigo-500" />
+                {{ $schoolClass->name }}
+            </h1>
+            @if($schoolClass->school)
+                <p class="text-slate-500 dark:text-slate-400 mt-1">{{ $schoolClass->school->name }}</p>
+            @endif
+        </header>
+
+        <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-6 shadow-sm space-y-4">
+            <a href="{{ route('notebook.grades', $schoolClass) }}" class="flex items-center gap-3 p-4 rounded-lg border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+                <div class="p-2 rounded-lg bg-indigo-100 dark:bg-indigo-900/30">
+                    <x-icon name="table-list" style="duotone" class="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                </div>
+                <div>
+                    <span class="font-medium text-slate-900 dark:text-white">Notas</span>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Planilha de notas e boletim</p>
+                </div>
+                <x-icon name="chevron-right" style="duotone" class="w-5 h-5 text-slate-400 ml-auto" />
+            </a>
+            <a href="{{ route('notebook.attendance', $schoolClass) }}" class="flex items-center gap-3 p-4 rounded-lg border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+                <div class="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-900/30">
+                    <x-icon name="user-check" style="duotone" class="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <div>
+                    <span class="font-medium text-slate-900 dark:text-white">Chamada</span>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Registro de presença</p>
+                </div>
+                <x-icon name="chevron-right" style="duotone" class="w-5 h-5 text-slate-400 ml-auto" />
+            </a>
+            <a href="{{ route('workspace.show', $schoolClass) }}" class="flex items-center gap-3 p-4 rounded-lg border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors">
+                <div class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700">
+                    <x-icon name="chalkboard" style="duotone" class="w-5 h-5 text-slate-600 dark:text-slate-300" />
+                </div>
+                <div>
+                    <span class="font-medium text-slate-900 dark:text-white">Workspace</span>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Iniciar aula e configurações da turma</p>
+                </div>
+                <x-icon name="chevron-right" style="duotone" class="w-5 h-5 text-slate-400 ml-auto" />
+            </a>
         </div>
     </div>
-</x-classrecord::layouts.master>
+</x-layouts.app-sidebar>

@@ -12,13 +12,14 @@ use App\Http\Controllers\Controller;
 use App\Models\SchoolClass;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class NotebookController extends Controller
 {
     /**
      * Rubric builder (list and edit rubrics and levels).
      */
-    public function rubrics(): \Illuminate\View\View
+    public function rubrics(): View
     {
         return view('notebook::rubrics');
     }
@@ -26,7 +27,7 @@ class NotebookController extends Controller
     /**
      * Grade spreadsheet for a class.
      */
-    public function grades(SchoolClass $schoolClass): \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+    public function grades(SchoolClass $schoolClass): View|RedirectResponse
     {
         if ($schoolClass->user_id !== auth()->id()) {
             abort(403);
@@ -37,7 +38,7 @@ class NotebookController extends Controller
     /**
      * Quick attendance for a class.
      */
-    public function attendance(SchoolClass $schoolClass): \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+    public function attendance(SchoolClass $schoolClass): View|RedirectResponse
     {
         if ($schoolClass->user_id !== auth()->id()) {
             abort(403);
@@ -46,50 +47,53 @@ class NotebookController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     * Redireciona para o dashboard (use o menu Caderno para rubricas, notas e chamada).
+     * Caderno index: entry point with links to Rubricas, Notas and Chamada per class.
      */
-    public function index(): RedirectResponse
+    public function index(): View
     {
-        return redirect()->route('dashboard')->with('info', __('Use o menu Caderno para acessar rubricas, notas e chamada.'));
+        $schoolClasses = SchoolClass::where('user_id', auth()->id())
+            ->orderBy('name')
+            ->get();
+
+        return view('notebook::index', compact('schoolClasses'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Create (not used; redirect to index).
      */
     public function create(): RedirectResponse
     {
-        return redirect()->route('dashboard')->with('info', __('Use o menu Caderno para acessar rubricas, notas e chamada.'));
+        return redirect()->route('notebook.index');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store (not used).
      */
     public function store(Request $request) {}
 
     /**
-     * Show the specified resource.
+     * Show (not used; redirect to index).
      */
     public function show($id): RedirectResponse
     {
-        return redirect()->route('dashboard')->with('info', __('Use o menu Caderno para acessar rubricas, notas e chamada.'));
+        return redirect()->route('notebook.index');
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Edit (not used; redirect to index).
      */
     public function edit($id): RedirectResponse
     {
-        return redirect()->route('dashboard')->with('info', __('Use o menu Caderno para acessar rubricas, notas e chamada.'));
+        return redirect()->route('notebook.index');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update (not used).
      */
     public function update(Request $request, $id) {}
 
     /**
-     * Remove the specified resource from storage.
+     * Remove (not used).
      */
     public function destroy($id) {}
 }

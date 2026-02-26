@@ -11,54 +11,67 @@ namespace Modules\Finance\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Modules\Finance\Models\Transaction;
+use Modules\Finance\Models\Wallet;
 
 class FinanceController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * Redireciona para o dashboard (área em desenvolvimento).
+     * Display wallet and transactions (Minhas Finanças).
      */
-    public function index(): RedirectResponse
+    public function index(): View
     {
-        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
+        $wallet = Wallet::firstOrCreate(
+            ['user_id' => auth()->id()],
+            ['balance' => 0, 'withdrawable_balance' => 0]
+        );
+
+        $transactions = $wallet->transactions()->latest()->paginate(15);
+
+        return view('finance::index', compact('wallet', 'transactions'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating (not used; redirect).
      */
     public function create(): RedirectResponse
     {
-        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
+        return redirect()->route('finance.index');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store (not used for finances from this controller).
      */
     public function store(Request $request) {}
 
     /**
-     * Show the specified resource.
+     * Show a single transaction detail.
      */
-    public function show($id): RedirectResponse
+    public function show(string $id): View
     {
-        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
+        $transaction = Transaction::whereHas('wallet', function ($q) {
+            $q->where('user_id', auth()->id());
+        })->with('wallet')->findOrFail($id);
+
+        return view('finance::show', compact('transaction'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Edit (not used; redirect).
      */
-    public function edit($id): RedirectResponse
+    public function edit(string $id): RedirectResponse
     {
-        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
+        return redirect()->route('finance.index');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update (not used).
      */
-    public function update(Request $request, $id) {}
+    public function update(Request $request, string $id) {}
 
     /**
-     * Remove the specified resource from storage.
+     * Remove (not used).
      */
-    public function destroy($id) {}
+    public function destroy(string $id) {}
 }

@@ -1,13 +1,41 @@
-<x-notifications::layouts.master>
-    <div class="p-6 max-w-2xl mx-auto">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Detalhe</h1>
-        <p class="text-gray-600 dark:text-gray-400 mb-6">Módulo Notifications. Passe o modelo do controller quando o recurso estiver implementado.</p>
-        <div class="rounded-lg border border-gray-200 dark:border-gray-700 p-4 bg-gray-50 dark:bg-gray-800/50">
-            <p class="text-sm text-gray-500 dark:text-gray-400">ID: {{ $id ?? 'N/A' }}</p>
-        </div>
-        <div class="mt-6 flex gap-3">
-            <a href="{{ route('notifications.edit', $id ?? 1) }}" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Editar</a>
-            <a href="{{ route('notifications.index') }}" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600">Voltar</a>
+<x-layouts.app-sidebar title="Notificação — Oh Pro!">
+    <div class="max-w-2xl mx-auto">
+        <a href="{{ route('notifications.index') }}" class="text-sm text-slate-600 dark:text-slate-400 hover:underline flex items-center gap-1 mb-6 w-fit">
+            <x-icon name="arrow-left" style="duotone" class="fa-sm" />
+            Voltar às Notificações
+        </a>
+
+        <div class="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden shadow-sm">
+            <div class="p-6 border-b border-slate-200 dark:border-slate-700">
+                <p class="text-sm text-slate-500 dark:text-slate-400">
+                    {{ $notification->created_at->translatedFormat('d/m/Y H:i') }}
+                </p>
+                <h1 class="text-xl font-display font-bold text-slate-900 dark:text-white mt-1">
+                    {{ is_array($notification->data) && isset($notification->data['title']) ? $notification->data['title'] : 'Notificação' }}
+                </h1>
+            </div>
+            <div class="p-6">
+                @if(is_array($notification->data))
+                    @if(!empty($notification->data['message']))
+                        <p class="text-slate-700 dark:text-slate-300 whitespace-pre-wrap">{{ $notification->data['message'] }}</p>
+                    @elseif(!empty($notification->data['body']))
+                        <p class="text-slate-700 dark:text-slate-300 whitespace-pre-wrap">{{ $notification->data['body'] }}</p>
+                    @else
+                        <div class="text-sm text-slate-600 dark:text-slate-400 space-y-1">
+                            @foreach($notification->data as $key => $value)
+                                @if(!in_array($key, ['title', 'message', 'body']) && is_scalar($value))
+                                    <p><span class="font-medium text-slate-500">{{ ucfirst($key) }}:</span> {{ $value }}</p>
+                                @endif
+                            @endforeach
+                        </div>
+                        @if(empty(array_diff_key($notification->data, array_flip(['title', 'message', 'body']))))
+                            <p class="text-slate-500 dark:text-slate-400">Sem conteúdo adicional.</p>
+                        @endif
+                    @endif
+                @else
+                    <p class="text-slate-500 dark:text-slate-400">Conteúdo indisponível.</p>
+                @endif
+            </div>
         </div>
     </div>
-</x-notifications::layouts.master>
+</x-layouts.app-sidebar>

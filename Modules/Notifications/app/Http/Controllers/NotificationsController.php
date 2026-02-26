@@ -11,54 +11,59 @@ namespace Modules\Notifications\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class NotificationsController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * Redireciona para o dashboard (área em desenvolvimento).
+     * Display a listing of the user's notifications.
      */
-    public function index(): RedirectResponse
+    public function index(): View
     {
-        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
+        $notifications = auth()->user()->notifications()->paginate(20);
+
+        return view('notifications::index', compact('notifications'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Create (not used; redirect).
      */
     public function create(): RedirectResponse
     {
-        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
+        return redirect()->route('notifications.index');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store (not used).
      */
     public function store(Request $request) {}
 
     /**
-     * Show the specified resource.
+     * Show a single notification and mark as read.
      */
-    public function show($id): RedirectResponse
+    public function show(string $id): View
     {
-        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
+        $notification = auth()->user()->notifications()->findOrFail($id);
+        $notification->markAsRead();
+
+        return view('notifications::show', compact('notification'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Edit (not used; redirect).
      */
-    public function edit($id): RedirectResponse
+    public function edit(string $id): RedirectResponse
     {
-        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
+        return redirect()->route('notifications.index');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update (not used).
      */
-    public function update(Request $request, $id) {}
+    public function update(Request $request, string $id) {}
 
     /**
-     * Remove the specified resource from storage.
+     * Remove (not used).
      */
-    public function destroy($id) {}
+    public function destroy(string $id) {}
 }

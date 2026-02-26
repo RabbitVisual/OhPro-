@@ -11,54 +11,54 @@ namespace Modules\Core\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class CoreController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * Redireciona para o dashboard (área em desenvolvimento).
+     * Recursos: entry page with links to notifications and dashboard.
      */
-    public function index(): RedirectResponse
+    public function index(): View
     {
-        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
+        return view('core::index');
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Create (no CRUD for core; redirect).
      */
     public function create(): RedirectResponse
     {
-        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
+        return redirect()->route('dashboard');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store (not used).
      */
     public function store(Request $request) {}
 
     /**
-     * Show the specified resource.
+     * Show (no resource; redirect).
      */
     public function show($id): RedirectResponse
     {
-        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
+        return redirect()->route('dashboard');
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Edit (no resource; redirect).
      */
     public function edit($id): RedirectResponse
     {
-        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
+        return redirect()->route('dashboard');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update (not used).
      */
     public function update(Request $request, $id) {}
 
     /**
-     * Remove the specified resource from storage.
+     * Remove (not used).
      */
     public function destroy($id) {}
 }

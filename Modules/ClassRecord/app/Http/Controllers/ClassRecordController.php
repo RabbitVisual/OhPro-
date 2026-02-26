@@ -9,56 +9,66 @@
 namespace Modules\ClassRecord\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\SchoolClass;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ClassRecordController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * Redireciona para o dashboard (área em desenvolvimento).
+     * List teacher's classes with links to grades, attendance, workspace.
      */
-    public function index(): RedirectResponse
+    public function index(): View
     {
-        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
+        $schoolClasses = SchoolClass::where('user_id', auth()->id())
+            ->with('school:id,name')
+            ->orderBy('name')
+            ->get();
+
+        return view('classrecord::index', compact('schoolClasses'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Create (turmas are created in Workspace; redirect).
      */
     public function create(): RedirectResponse
     {
-        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
+        return redirect()->route('dashboard');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store (not used).
      */
     public function store(Request $request) {}
 
     /**
-     * Show the specified resource.
+     * Show a single class summary with links to grades, attendance, workspace.
      */
-    public function show($id): RedirectResponse
+    public function show(string $id): View|RedirectResponse
     {
-        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
+        $schoolClass = SchoolClass::where('user_id', auth()->id())
+            ->with('school:id,name')
+            ->findOrFail($id);
+
+        return view('classrecord::show', compact('schoolClass'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Edit (redirect).
      */
-    public function edit($id): RedirectResponse
+    public function edit(string $id): RedirectResponse
     {
-        return redirect()->route('dashboard')->with('info', __('Esta área está em desenvolvimento.'));
+        return redirect()->route('classrecord.index');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update (not used).
      */
-    public function update(Request $request, $id) {}
+    public function update(Request $request, string $id) {}
 
     /**
-     * Remove the specified resource from storage.
+     * Remove (not used).
      */
-    public function destroy($id) {}
+    public function destroy(string $id) {}
 }

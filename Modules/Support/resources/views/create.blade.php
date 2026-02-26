@@ -95,13 +95,19 @@
                     <!-- Assunto -->
                     <div>
                         <label for="subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Assunto Resumido</label>
-                        <input type="text" name="subject" id="subject" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white text-sm rounded-xl focus:ring-indigo-500 focus:border-indigo-500 block p-3 placeholder-gray-400" placeholder="Ex: Erro ao importar alunos no diário" required>
+                        <input type="text" name="subject" id="subject" value="{{ old('subject') }}" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white text-sm rounded-xl focus:ring-indigo-500 focus:border-indigo-500 block p-3 placeholder-gray-400 @error('subject') border-red-500 dark:border-red-400 @enderror" placeholder="Ex: Erro ao importar alunos no diário" required>
+                        @error('subject')
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Descrição -->
                     <div>
                         <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Detalhes da Solicitação</label>
-                        <textarea name="description" id="description" rows="5" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white text-sm rounded-xl focus:ring-indigo-500 focus:border-indigo-500 block p-3 placeholder-gray-400 resize-none" placeholder="Descreva o que aconteceu em detalhes. Se for um problema, conte-nos os passos para reproduzi-lo..." required></textarea>
+                        <textarea name="description" id="description" rows="5" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white text-sm rounded-xl focus:ring-indigo-500 focus:border-indigo-500 block p-3 placeholder-gray-400 resize-none @error('description') border-red-500 dark:border-red-400 @enderror" placeholder="Descreva o que aconteceu em detalhes. Se for um problema, conte-nos os passos para reproduzi-lo..." required>{{ old('description') }}</textarea>
+                        @error('description')
+                            <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Anexos -->
